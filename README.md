@@ -104,11 +104,13 @@ flowchart LR
 
 ### 第一步：下载软件
 
+> 💡 **最新版本**：访问 [Releases 页面](https://github.com/geekjourneyx/md2wechat-skill/releases) 下载
+
 | 你的系统 | 下载链接 | 说明 |
 |----------|----------|------|
-| 🪟 **Windows** | [下载 .exe](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-windows-amd64.exe) | 双击安装 |
-| 🍎 **Mac Intel** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64) | 拖拽到 Applications |
-| 🍎 **Mac M1/M2** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64) | 拖拽到 Applications |
+| 🪟 **Windows** | [下载 .exe](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-windows-amd64.exe) | 双击运行 |
+| 🍎 **Mac Intel** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64) | 终端运行 |
+| 🍎 **Mac M1/M2** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64) | 终端运行 |
 | 🐧 **Linux** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64) | 放到 `/usr/local/bin` |
 
 > ⚠️ **Mac 用户**：下载后如果提示「无法打开」，右键点击 → 打开 → 仍要打开

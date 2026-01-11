@@ -2,12 +2,18 @@
 /md2wechat
 /md2wechat.exe
 
-# Ignore other binaries but allow bin/ directory
+# Ignore all binaries
 *.exe
 *.dll
 *.so
 *.dylib
-!bin/
+
+# Ignore compiled binaries (download from releases instead)
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
 
 # Test binary, built with `go test -c`
 *.test
