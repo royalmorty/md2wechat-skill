@@ -86,9 +86,12 @@ func LoadWithDefaults(configPath string) (*Config, error) {
 	if configPath != "" {
 		if err := loadFromFile(cfg, configPath); err != nil {
 			// 配置文件加载失败不是致命错误，继续使用环境变量和默认值
-			fmt.Fprintf(os.Stderr, "Warning: failed to load config file: %v\n", err)
+			fmt.Fprintf(os.Stderr, "⚠️  警告: 配置文件加载失败 (%v)，将使用环境变量或默认值\n", err)
 		} else {
 			cfg.configFile = configPath
+			// 显示正在使用的配置文件
+			relPath := getRelativePath(configPath)
+			fmt.Fprintf(os.Stderr, "✅ 使用配置文件: %s\n", relPath)
 		}
 	}
 
@@ -110,20 +113,35 @@ func LoadWithDefaults(configPath string) (*Config, error) {
 }
 
 // findConfigFile 查找配置文件
+// 优先级：用户目录（全局配置） > 当前目录（项目配置）
 func findConfigFile() string {
-	// 按优先级查找
-	paths := []string{
+	// 优先使用用户主目录的配置文件（全局配置，一次配置所有项目通用）
+	homeDir, _ := os.UserHomeDir()
+	userPaths := []string{
+		filepath.Join(homeDir, ".config", "md2wechat", "config.yaml"),
+		filepath.Join(homeDir, ".md2wechat.yaml"),
+		filepath.Join(homeDir, ".md2wechat.yml"),
+	}
+
+	// 当前工作目录的配置文件（项目级配置，可选）
+	cwdPaths := []string{
 		"md2wechat.yaml",
 		"md2wechat.yml",
 		"md2wechat.json",
 		".md2wechat.yaml",
 		".md2wechat.yml",
 		".md2wechat.json",
-		filepath.Join(os.Getenv("HOME"), ".md2wechat.yaml"),
-		filepath.Join(os.Getenv("HOME"), ".config", "md2wechat", "config.yaml"),
 	}
 
-	for _, path := range paths {
+	// 先查找用户目录配置
+	for _, path := range userPaths {
+		if info, err := os.Stat(path); err == nil && !info.IsDir() {
+			return path
+		}
+	}
+
+	// 再查找当前目录配置
+	for _, path := range cwdPaths {
 		if info, err := os.Stat(path); err == nil && !info.IsDir() {
 			return path
 		}
@@ -274,26 +292,50 @@ func loadFromEnv(cfg *Config) {
 // Validate 验证配置
 func (c *Config) Validate() error {
 	if c.WechatAppID == "" {
-		return &ConfigError{Field: "WechatAppID", Message: "WECHAT_APPID is required"}
+		return &ConfigError{
+			Field:   "WechatAppID",
+			Message: "微信公众号 AppID 未配置",
+			Hint:    "运行 'md2wechat config init' 生成配置文件，然后填入 AppID",
+		}
 	}
 	if c.WechatSecret == "" {
-		return &ConfigError{Field: "WechatSecret", Message: "WECHAT_SECRET is required"}
+		return &ConfigError{
+			Field:   "WechatSecret",
+			Message: "微信公众号 Secret 未配置",
+			Hint:    "登录微信公众平台 > 设置与开发 > 基本配置 > 获取 Secret",
+		}
 	}
 
 	// 验证转换模式
 	if c.DefaultConvertMode != "api" && c.DefaultConvertMode != "ai" {
-		return &ConfigError{Field: "ConvertMode", Message: "must be 'api' or 'ai'"}
+		return &ConfigError{
+			Field:   "ConvertMode",
+			Message: "转换模式必须是 'api' 或 'ai'",
+			Hint:    "配置文件中设置 api.convert_mode: api",
+		}
 	}
 
 	// 验证数值范围
 	if c.MaxImageWidth < 100 || c.MaxImageWidth > 10000 {
-		return &ConfigError{Field: "MaxImageWidth", Message: "must be between 100 and 10000"}
+		return &ConfigError{
+			Field:   "MaxImageWidth",
+			Message: "图片最大宽度必须在 100 到 10000 之间",
+			Hint:    "配置文件中设置 image.max_width: 1920",
+		}
 	}
 	if c.MaxImageSize < 1024*100 { // 最小 100KB
-		return &ConfigError{Field: "MaxImageSize", Message: "must be at least 100KB"}
+		return &ConfigError{
+			Field:   "MaxImageSize",
+			Message: "图片最大大小不能小于 100KB",
+			Hint:    "配置文件中设置 image.max_size_mb: 5",
+		}
 	}
 	if c.HTTPTimeout < 1 || c.HTTPTimeout > 300 {
-		return &ConfigError{Field: "HTTPTimeout", Message: "must be between 1 and 300 seconds"}
+		return &ConfigError{
+			Field:   "HTTPTimeout",
+			Message: "超时时间必须在 1 到 300 秒之间",
+			Hint:    "配置文件中设置 api.http_timeout: 30",
+		}
 	}
 
 	return nil
@@ -388,10 +430,15 @@ func SaveConfig(path string, cfg *Config) error {
 type ConfigError struct {
 	Field   string
 	Message string
+	Hint    string // 配置提示
 }
 
 func (e *ConfigError) Error() string {
-	return fmt.Sprintf("config error [%s]: %s", e.Field, e.Message)
+	msg := fmt.Sprintf("配置错误 [%s]: %s", e.Field, e.Message)
+	if e.Hint != "" {
+		msg += fmt.Sprintf("\n💡 提示: %s", e.Hint)
+	}
+	return msg
 }
 
 // getEnvBool 获取布尔型环境变量
@@ -434,4 +481,31 @@ func maskIf(value string, mask bool) string {
 		return "***"
 	}
 	return value[:2] + "***" + value[len(value)-2:]
+}
+
+// getRelativePath 获取相对路径（用于更友好的显示）
+func getRelativePath(fullPath string) string {
+	// 如果是用户目录，显示为 ~/.md2wechat.yaml
+	homeDir, _ := os.UserHomeDir()
+	if homeDir != "" && strings.HasPrefix(fullPath, homeDir) {
+		rel := strings.TrimPrefix(fullPath, homeDir)
+		if strings.HasPrefix(rel, "/") || strings.HasPrefix(rel, "\\") {
+			rel = rel[1:]
+		}
+		return "~/" + rel
+	}
+
+	// 如果是当前目录，直接显示文件名
+	if cwd, err := os.Getwd(); err == nil {
+		if strings.HasPrefix(fullPath, cwd) {
+			rel := strings.TrimPrefix(fullPath, cwd)
+			if strings.HasPrefix(rel, "/") || strings.HasPrefix(rel, "\\") {
+				rel = rel[1:]
+			}
+			return "./" + rel
+		}
+	}
+
+	// 其他情况返回完整路径
+	return fullPath
 }
