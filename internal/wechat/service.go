@@ -15,6 +15,7 @@ import (
 	"github.com/silenceper/wechat/v2"
 	wechatcache "github.com/silenceper/wechat/v2/cache"
 	wechatconfig "github.com/silenceper/wechat/v2/officialaccount/config"
+	"github.com/silenceper/wechat/v2/officialaccount"
 	"github.com/silenceper/wechat/v2/officialaccount/draft"
 	"github.com/silenceper/wechat/v2/officialaccount/material"
 	"go.uber.org/zap"
@@ -37,7 +38,7 @@ func NewService(cfg *config.Config, log *zap.Logger) *Service {
 }
 
 // getOfficialAccount 获取公众号实例
-func (s *Service) getOfficialAccount() any {
+func (s *Service) getOfficialAccount() *officialaccount.OfficialAccount {
 	memory := wechatcache.NewMemory()
 	wechatCfg := &wechatconfig.Config{
 		AppID:     s.cfg.WechatAppID,
@@ -59,23 +60,10 @@ type UploadMaterialResult struct {
 func (s *Service) UploadMaterial(filePath string) (*UploadMaterialResult, error) {
 	startTime := time.Now()
 	oa := s.getOfficialAccount()
+	mat := oa.GetMaterial()
 
-	// 通过反射或接口获取 Material 实例
-	// 这里使用类型断言获取实际的官方账号接口
-	mat := getMaterialFromOA(oa)
-
-	// 打开文件
-	file, err := os.Open(filePath)
-	if err != nil {
-		s.log.Error("open file failed",
-			zap.String("path", filePath),
-			zap.Error(err))
-		return nil, fmt.Errorf("open file: %w", err)
-	}
-	defer file.Close()
-
-	// 调用微信 API 上传
-	mediaID, url, err := mat.AddMaterial(material.MediaTypeImage, file)
+	// 调用微信 API 上传（SDK 接受文件路径字符串）
+	mediaID, url, err := mat.AddMaterial(material.MediaTypeImage, filePath)
 	if err != nil {
 		s.log.Error("upload material failed",
 			zap.String("path", filePath),
@@ -105,17 +93,10 @@ type CreateDraftResult struct {
 func (s *Service) CreateDraft(articles []*draft.Article) (*CreateDraftResult, error) {
 	startTime := time.Now()
 	oa := s.getOfficialAccount()
+	dm := oa.GetDraft()
 
-	// 通过反射或接口获取 Draft 实例
-	dm := getDraftFromOA(oa)
-
-	// 转换为 SDK 格式
-	var draftArticles []draft.Article
-	for _, a := range articles {
-		draftArticles = append(draftArticles, *a)
-	}
-
-	mediaID, err := dm.AddDraft(draftArticles)
+	// 直接调用 SDK 方法，SDK 接受 []*draft.Article
+	mediaID, err := dm.AddDraft(articles)
 	if err != nil {
 		s.log.Error("create draft failed", zap.Error(err))
 		return nil, fmt.Errorf("create draft: %w", err)
@@ -157,15 +138,14 @@ type AccessTokenResult struct {
 // GetAccessToken 获取 access_token（调试用）
 func (s *Service) GetAccessToken() (*AccessTokenResult, error) {
 	oa := s.getOfficialAccount()
-	at := getAccessTokenFromOA(oa)
-	accessToken, err := at.GetAccessToken()
+	accessToken, err := oa.GetAccessToken()
 	if err != nil {
 		return nil, fmt.Errorf("get access token: %w", err)
 	}
 
 	return &AccessTokenResult{
-		AccessToken: accessToken.AccessToken,
-		ExpiresIn:   accessToken.ExpiresIn,
+		AccessToken: accessToken,
+		ExpiresIn:   7200, // 微信默认 7200 秒
 	}, nil
 }
 
@@ -258,59 +238,4 @@ func CreateMultipartFormData(fieldName, filename string, data []byte) (string, *
 // JSONMarshal 自定义 JSON 序列化
 func JSONMarshal(v any) ([]byte, error) {
 	return json.MarshalIndent(v, "", "  ")
-}
-
-// 以下辅助函数用于从 OfficialAccount 接口获取具体实例
-// 由于 silenceper/wechat SDK 的接口设计，需要通过接口方法获取
-
-type materialInterface interface {
-	AddMaterial(mediaType material.MediaType, file *os.File) (mediaID string, url string, err error)
-}
-
-type draftInterface interface {
-	AddDraft(articles []draft.Article) (string, error)
-}
-
-type accessTokenInterface interface {
-	GetAccessToken() (*AccessToken, error)
-}
-
-// AccessToken access_token 结构
-type AccessToken struct {
-	AccessToken string `json:"access_token"`
-	ExpiresIn   int    `json:"expires_in"`
-}
-
-// getMaterialFromOA 从 OfficialAccount 获取 Material 实例
-func getMaterialFromOA(oa any) materialInterface {
-	// 这里使用类型断言，实际类型由 SDK 提供
-	type materialGetter interface {
-		GetMaterial() materialInterface
-	}
-	if getter, ok := oa.(materialGetter); ok {
-		return getter.GetMaterial()
-	}
-	return nil
-}
-
-// getDraftFromOA 从 OfficialAccount 获取 Draft 实例
-func getDraftFromOA(oa any) draftInterface {
-	type draftGetter interface {
-		GetDraft() draftInterface
-	}
-	if getter, ok := oa.(draftGetter); ok {
-		return getter.GetDraft()
-	}
-	return nil
-}
-
-// getAccessTokenFromOA 从 OfficialAccount 获取 AccessToken 实例
-func getAccessTokenFromOA(oa any) accessTokenInterface {
-	type accessTokenGetter interface {
-		GetAccessToken() accessTokenInterface
-	}
-	if getter, ok := oa.(accessTokenGetter); ok {
-		return getter.GetAccessToken()
-	}
-	return nil
 }

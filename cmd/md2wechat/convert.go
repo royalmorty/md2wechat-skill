@@ -8,6 +8,7 @@ import (
 	"github.com/geekjourneyx/md2wechat-skill/internal/converter"
 	"github.com/geekjourneyx/md2wechat-skill/internal/draft"
 	"github.com/geekjourneyx/md2wechat-skill/internal/image"
+	"github.com/geekjourneyx/md2wechat-skill/internal/wechat"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 )
@@ -48,6 +49,7 @@ var (
 	convertUpload       bool
 	convertDraft        bool
 	convertSaveDraft    string
+	convertCoverImage   string // 封面图片路径
 )
 
 func init() {
@@ -62,6 +64,7 @@ func init() {
 	convertCmd.Flags().BoolVar(&convertUpload, "upload", false, "Upload images to WeChat and replace URLs")
 	convertCmd.Flags().BoolVar(&convertDraft, "draft", false, "Create WeChat draft after conversion")
 	convertCmd.Flags().StringVar(&convertSaveDraft, "save-draft", "", "Save draft JSON to file")
+	convertCmd.Flags().StringVar(&convertCoverImage, "cover", "", "Cover image path for draft (required when using --draft)")
 }
 
 // runConvert 执行转换
@@ -125,7 +128,7 @@ func runConvert(cmd *cobra.Command, args []string) error {
 	}
 
 	if convertDraft {
-		if err := createWeChatDraft(result); err != nil {
+		if err := createWeChatDraft(result, convertCoverImage); err != nil {
 			return fmt.Errorf("create draft: %w", err)
 		}
 	}
@@ -254,17 +257,36 @@ func saveDraft(result *converter.ConvertResult) error {
 }
 
 // createWeChatDraft 创建微信草稿
-func createWeChatDraft(result *converter.ConvertResult) error {
+func createWeChatDraft(result *converter.ConvertResult, coverImagePath string) error {
 	svc := draft.NewService(cfg, log)
+
+	// 检查封面图片（微信要求必须有封面图）
+	if coverImagePath == "" {
+		return &DraftError{
+			Message: "创建草稿需要封面图片",
+			Hint:    "请使用 --cover 参数指定封面图片路径，例如: --cover /path/to/cover.jpg\n" +
+				"或者先上传封面图片到微信素材库: md2wechat upload_image /path/to/cover.jpg",
+		}
+	}
+
+	// 上传封面图片到微信素材库
+	log.Info("uploading cover image", zap.String("path", coverImagePath))
+	coverMediaID, err := uploadCoverImage(coverImagePath)
+	if err != nil {
+		return fmt.Errorf("上传封面图片失败: %w", err)
+	}
+	log.Info("cover image uploaded", zap.String("media_id", maskMediaID(coverMediaID)))
 
 	// 提取标题（TODO: 从 markdown frontmatter 或第一个标题获取）
 	title := "Article Title"
 
 	draftResult, err := svc.CreateDraft([]draft.Article{
 		{
-			Title:   title,
-			Content: result.HTML,
-			Digest:  draft.GenerateDigestFromContent(result.HTML, 120),
+			Title:          title,
+			Content:        result.HTML,
+			Digest:         draft.GenerateDigestFromContent(result.HTML, 120),
+			ThumbMediaID:   coverMediaID,
+			ShowCoverPic:   1, // 显示封面
 		},
 	})
 
@@ -277,6 +299,30 @@ func createWeChatDraft(result *converter.ConvertResult) error {
 		zap.String("draft_url", draftResult.DraftURL))
 
 	return nil
+}
+
+// uploadCoverImage 上传封面图片到微信素材库
+func uploadCoverImage(imagePath string) (string, error) {
+	svc := wechat.NewService(cfg, log)
+	result, err := svc.UploadMaterial(imagePath)
+	if err != nil {
+		return "", err
+	}
+	return result.MediaID, nil
+}
+
+// DraftError 草稿错误
+type DraftError struct {
+	Message string
+	Hint    string
+}
+
+func (e *DraftError) Error() string {
+	msg := fmt.Sprintf("草稿错误: %s", e.Message)
+	if e.Hint != "" {
+		msg += fmt.Sprintf("\n💡 提示:\n   %s", e.Hint)
+	}
+	return msg
 }
 
 // outputHTML 输出 HTML
