@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2025-01-14
+
+### Added
+- **Provider Pattern**: Extensible image generation service architecture
+- **TuZi Integration**: Support for TuZi (tu-zi.com) image generation service
+  - Models: `doubao-seedream-4-5-251128` (default), `gemini-3-pro-image-preview`
+  - Sizes: 2048x2048 (default), 1920x1920, 2560x1440, 1440x2560, 3072x2048, 2048x3072, 3840x2160, 2160x3840
+- **Natural Language Image Generation**: Generate images via conversational interface
+  - Method 1: Insert into article at specific position
+  - Method 2: Standalone image generation
+  - Method 3: Manual Markdown syntax `![alt](__generate:prompt__)`
+- **Configuration Fields**: `image_provider`, `image_api_base`, `image_model`, `image_size`
+- **Documentation**: New `docs/IMAGE_PROVISIONERS.md` with complete provider configuration guide
+- **Sync Script**: `scripts/sync.sh` to keep `skill/` and `plugins/` directories synchronized
+- **Makefile Target**: `make sync` for easy directory synchronization
+
+### Changed
+- README: Enhanced platform-specific download instructions (Mac Intel vs Apple Silicon)
+- README: Added AI image generation section with natural language examples
+- `scripts/install.sh`: Added Linux ARM64 detection and support
+- Default TuZi image size: `1024x1024` → `2048x2048` (TuZi requires minimum 3.7M pixels)
+
+### Fixed
+- URL download with query parameters: Fixed file name too long error when downloading generated images
+- Platform detection in install script for ARM64 systems
+- API base URL documentation: Updated to correct `https://api.tu-zi.com/v1`
+
+### Technical Details
+- **New Files**:
+  - `internal/image/provider.go` - Provider interface and factory
+  - `internal/image/openai.go` - OpenAI DALL-E provider
+  - `internal/image/tuzi.go` - TuZi image generation provider
+  - `docs/IMAGE_PROVISIONERS.md` - Provider configuration guide
+  - `scripts/sync.sh` - Directory synchronization script
+
+---
+
 ## [1.3.1] - 2025-01-12
 
 ### Added

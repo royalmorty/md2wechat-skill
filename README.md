@@ -128,9 +128,16 @@ flowchart LR
 | 你的系统 | 下载链接 | 安装位置 |
 |----------|----------|----------|
 | 🪟 **Windows** | [下载 .exe](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-windows-amd64.exe) | 任意文件夹（或 `C:\Windows\System32\`） |
-| 🍎 **Mac Intel** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
-| 🍎 **Mac M1/M2** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
-| 🐧 **Linux** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🍎 **Mac Intel 芯片** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🍎 **Mac Apple Silicon (M1/M2/M3)** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🐧 **Linux (Intel/AMD)** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🐧 **Linux (ARM/树莓派)** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+
+> 🔍 **如何确认 Mac 芯片类型？**
+> - 点击屏幕左上角 **苹果图标** → **关于本机**
+> - 查看「芯片」或「处理器」信息：
+>   - 显示 `Apple M1/M2/M3/M4` → 下载 **Apple Silicon** 版本
+>   - 显示 `Intel` → 下载 **Intel** 版本
 
 **安装步骤**：
 
@@ -145,9 +152,57 @@ flowchart LR
 </details>
 
 <details>
-<summary><b>Mac/Linux 安装方法</b></summary>
+<summary><b>Mac 安装方法</b></summary>
 
-**方法一：命令行安装（推荐）**
+**请根据你的芯片类型选择对应命令：**
+
+**Apple Silicon (M1/M2/M3/M4)：**
+```bash
+# 下载并移动到系统目录
+curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64
+chmod +x md2wechat
+sudo mv md2wechat /usr/local/bin/
+
+# 测试
+md2wechat --help
+```
+
+**Intel 芯片：**
+```bash
+# 下载并移动到系统目录
+curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64
+chmod +x md2wechat
+sudo mv md2wechat /usr/local/bin/
+
+# 测试
+md2wechat --help
+```
+
+**用户目录安装（无需 sudo）：**
+```bash
+# Apple Silicon
+mkdir -p ~/.local/bin
+curl -Lo ~/.local/bin/md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64
+chmod +x ~/.local/bin/md2wechat
+
+# Intel 芯片（将上面 URL 中的 arm64 改为 amd64）
+
+# 添加到 PATH（如果还没有）
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+# 测试
+md2wechat --help
+```
+
+</details>
+
+<details>
+<summary><b>Linux 安装方法</b></summary>
+
+**请根据你的架构选择对应命令：**
+
+**Intel/AMD (x86_64)：**
 ```bash
 # 下载并移动到系统目录
 curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64
@@ -158,9 +213,21 @@ sudo mv md2wechat /usr/local/bin/
 md2wechat --help
 ```
 
-**方法二：用户目录安装（无需 sudo）**
+**ARM/树莓派 (aarch64)：**
+```bash
+# 下载并移动到系统目录
+curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-arm64
+chmod +x md2wechat
+sudo mv md2wechat /usr/local/bin/
+
+# 测试
+md2wechat --help
+```
+
+**用户目录安装（无需 sudo）：**
 ```bash
 mkdir -p ~/.local/bin
+# Intel/AMD 用 amd64，ARM 用 arm64
 curl -Lo ~/.local/bin/md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64
 chmod +x ~/.local/bin/md2wechat
 
@@ -259,6 +326,30 @@ md2wechat upload_image photo.jpg
 
 # 下载网络图片并上传
 md2wechat download_and_upload https://example.com/image.jpg
+
+# AI 生成图片并上传（需要配置 IMAGE_API_KEY）
+md2wechat generate_image "A cute cat sitting on a windowsill"
+```
+
+#### AI 图片生成
+
+在 Markdown 中使用特殊语法生成图片：
+
+```markdown
+![产品概念图](__generate:现代智能家居设备，白色简约设计，LED指示灯__)
+```
+
+**语法格式：** `![描述](__generate:提示词__)`
+
+- 支持中文和英文提示词
+- 生成的图片会自动上传到微信素材库
+- 需要配置图片生成服务（详见 [图片服务配置文档](docs/IMAGE_PROVISIONERS.md))
+
+**在 Claude Code 中使用自然语言：**
+```
+"帮我在文章开头生成一张产品概念图"
+"在第三段后添加一张对比图"
+"生成一张可爱的猫"（独立生成，不关联文章）
 ```
 
 ---
@@ -377,6 +468,8 @@ go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest
 ```bash
 curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/scripts/install.sh | bash
 ```
+
+> 💡 脚本会自动检测你的系统架构并下载对应版本
 
 **Windows PowerShell：**
 ```powershell
@@ -531,6 +624,30 @@ md2wechat travel-diary.md --mode ai --theme spring-fresh --preview
 <summary><b>Q: 生成的文章可以直接在微信编辑器中编辑吗？</b></summary>
 
 **A:** 可以！草稿发送后，你可以登录微信公众平台，在草稿箱中继续编辑。
+</details>
+
+<details>
+<summary><b>Q: 如何知道应该下载哪个版本？下载错了怎么办？</b></summary>
+
+**A:**
+
+**Mac 用户：**
+- 点击屏幕左上角苹果图标 → 「关于本机」
+- 看到 `Apple M1/M2/M3/M4` → 下载 **Apple Silicon (arm64)** 版本
+- 看到 `Intel` → 下载 **Intel (amd64)** 版本
+
+**Linux 用户：**
+- 运行 `uname -m` 命令
+- 输出 `x86_64` → 下载 **amd64** 版本
+- 输出 `aarch64` → 下载 **arm64** 版本
+
+**如果下载错了：**
+- 删除错误的文件，重新下载正确版本即可
+- 也可以使用一键安装脚本，会自动检测系统架构
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/scripts/install.sh | bash
+```
 </details>
 
 ---

@@ -168,12 +168,22 @@ check_download_tool() {
 # BINARY DOWNLOAD
 # =============================================================================
 
+# Download URLs in priority order (fallback chain)
+get_download_urls() {
+    local version=$1
+    local bin_name=$2
+
+    # 1. GitHub (primary)
+    echo "${RELEASE_URL}/v${version}/${bin_name}"
+
+    # 2. jsDelivr CDN (China-friendly, uses GitHub as backend)
+    echo "https://cdn.jsdelivr.net/gh/${REPO}@v${version}/bin/${bin_name}"
+}
+
 download_binary() {
     local platform=$1 version=$2 binary_path=$3
     local bin_name="${BINARY_NAME}-${platform}"
     [[ "$platform" == windows-* ]] && bin_name="${bin_name}.exe"
-
-    local download_url="${RELEASE_URL}/v${version}/${bin_name}"
 
     # Use cache directory for temp file (avoids /tmp noexec issues)
     local temp_dir="${CACHE_HOME}/tmp"
@@ -192,42 +202,52 @@ download_binary() {
         return $ERR_NO_DOWNLOAD_TOOL
     }
 
-    # Download with timeout
-    local exit_code=0
+    # Try each mirror in order
+    local urls
+    urls=$(get_download_urls "$version" "$bin_name")
 
-    if [[ "$tool" == "curl" ]]; then
-        curl -fsSL --max-time 60 --connect-timeout 10 \
-            -o "$temp_file" "$download_url" 2>/dev/null
-        exit_code=$?
-    else
-        wget -q -O "$temp_file" --timeout=60 "$download_url" 2>/dev/null
-        exit_code=$?
-    fi
+    local attempt=1
+    local total_urls=0
+    while IFS= read -r url; do
+        ((total_urls++))
+    done <<< "$urls"
 
-    if [[ $exit_code -ne 0 ]]; then
-        rm -f "$temp_file"
-        return $ERR_DOWNLOAD_FAILED
-    fi
+    while IFS= read -r url; do
+        if [[ -n "$url" ]]; then
+            if [[ $attempt -gt 1 ]]; then
+                info "Trying mirror $((attempt))/$total_urls..."
+            fi
 
-    # Validate downloaded file size (protects against empty/corrupted downloads)
-    local file_size=0
-    file_size=$(wc -c < "$temp_file" 2>/dev/null) || file_size=0
+            local exit_code=0
+            if [[ "$tool" == "curl" ]]; then
+                curl -fsSL --max-time 120 --connect-timeout 10 \
+                    -o "$temp_file" "$url" 2>/dev/null
+                exit_code=$?
+            else
+                wget -q -O "$temp_file" --timeout=120 "$url" 2>/dev/null
+                exit_code=$?
+            fi
 
-    if [[ $file_size -lt $MIN_BINARY_SIZE ]]; then
-        rm -f "$temp_file"
-        return $ERR_DOWNLOAD_FAILED
-    fi
+            if [[ $exit_code -eq 0 ]]; then
+                # Validate downloaded file size
+                local file_size=0
+                file_size=$(wc -c < "$temp_file" 2>/dev/null) || file_size=0
 
-    # Move to final location
-    mv "$temp_file" "$binary_path"
+                if [[ $file_size -ge $MIN_BINARY_SIZE ]]; then
+                    mv "$temp_file" "$binary_path"
+                    chmod +x "$binary_path" 2>/dev/null || true
+                    save_version_info "$version" "$platform"
+                    success "Ready! (cached for next time)"
+                    return 0
+                fi
+            fi
 
-    # Set executable permission (silently fail on Windows where chmod may not work)
-    chmod +x "$binary_path" 2>/dev/null || true
+            rm -f "$temp_file"
+            ((attempt++))
+        fi
+    done <<< "$urls"
 
-    save_version_info "$version" "$platform"
-
-    success "Ready! (cached for next time)"
-    return 0
+    return $ERR_DOWNLOAD_FAILED
 }
 
 # =============================================================================

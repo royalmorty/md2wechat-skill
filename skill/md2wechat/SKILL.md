@@ -23,6 +23,35 @@ bash skill/md2wechat/scripts/run.sh convert article.md --mode ai --theme autumn-
 bash skill/md2wechat/scripts/run.sh convert article.md --draft --cover cover.jpg
 ```
 
+### Natural Language Image Generation
+
+You can also ask me to generate images using natural language:
+
+#### Generate Image for Article (Insert into Markdown)
+
+```
+"Help me generate a product concept image at the beginning of article.md"
+"Add an image showing the product features after the second paragraph"
+"Create a diagram for the comparison section in article.md"
+```
+
+I will:
+1. Read the article to understand the context
+2. Insert the AI image generation syntax at the appropriate location
+3. Call the conversion command to generate and upload the image
+
+#### Generate Standalone Image (Not for Article)
+
+```
+"Generate an image of a cute cat sitting on a windowsill"
+"Create a product concept image: modern smart home device, white design"
+"Make a diagram showing the user flow"
+```
+
+I will:
+1. Call the image generation command directly
+2. Return the generated image URL and WeChat material ID
+
 ## Workflow Checklist
 
 Copy this checklist to track progress:
@@ -144,9 +173,77 @@ Read the selected style prompt from `references/themes.md` and generate HTML wit
 
 ## Step 4: Process Images
 
+### Image Generation Methods
+
+There are **three ways** to generate AI images:
+
+#### Method 1: Natural Language - For Article (Recommended)
+
+Simply describe what you want in plain language:
+
+```
+User: "Generate a product concept image at the beginning of article.md"
+
+User: "Add a comparison chart after the third paragraph"
+
+User: "Create an image showing the workflow diagram in article.md"
+```
+
+**How I process natural language requests:**
+
+1. **Understand the intent** - Identify where to insert the image
+2. **Read the article** - Analyze context to create an appropriate prompt
+3. **Insert the syntax** - Add `![alt](__generate:prompt__)` at the correct location
+4. **Confirm with user** - Show the prompt I created and ask for approval
+5. **Generate and upload** - Call the conversion command to complete
+
+**Example conversation:**
+
+```
+User: "Add a product image at the start of my article"
+Claude: "I'll add a product concept image at the beginning of article.md.
+Based on your article about 'Smart Home Hub', I'll use this prompt:
+'A modern smart home hub device, sleek white design with LED indicator
+lights, minimalist product photography on a clean white background'
+Should I proceed?"
+User: "Yes"
+Claude: [Inserts the syntax and runs conversion]
+```
+
+#### Method 2: Natural Language - Standalone Image
+
+Generate an image without any article:
+
+```
+User: "Generate an image of a cute cat sitting on a windowsill"
+User: "Create a product concept: modern smart home device"
+User: "Make a diagram showing user signup flow"
+```
+
+**I will:**
+1. Create an appropriate prompt based on your description
+2. Call: `bash skill/md2wechat/scripts/run.sh generate_image "prompt"`
+3. Return the WeChat URL and media ID
+
+**Use when:** You just need an image, not for any article.
+
+#### Method 3: Manual Syntax
+
+Write the image generation syntax directly in Markdown:
+
+```markdown
+![Product Concept](__generate:A futuristic smart home hub device, sleek design__)
+```
+
+**Syntax format:** `![alt text](__generate:prompt__)`
+
+---
+
+### Processing Images by Type
+
 For each image reference in order:
 
-### Local Image
+#### Local Image
 
 ```bash
 bash skill/md2wechat/scripts/run.sh upload_image "/path/to/image.png"
@@ -157,19 +254,19 @@ Response:
 {"success": true, "wechat_url": "https://mmbiz.qpic.cn/...", "media_id": "xxx"}
 ```
 
-### Online Image
+#### Online Image
 
 ```bash
 bash skill/md2wechat/scripts/run.sh download_and_upload "https://example.com/image.png"
 ```
 
-### AI Generated Image
+#### AI Generated Image (via CLI)
 
 ```bash
 bash skill/md2wechat/scripts/run.sh generate_image "A cute cat sitting on a windowsill"
 ```
 
-**Note**: Requires `IMAGE_API_KEY` environment variable.
+**Note**: AI image generation requires `IMAGE_API_KEY` environment variable.
 
 **Image Processing Pipeline**:
 1. If AI generation: Call image API → get URL
@@ -332,7 +429,25 @@ A story about memories...
 3. Generate themed HTML with inline CSS
 4. Preview or upload
 
-### Example 4: Mixed Image Types
+### Example 4: AI Image Generation via Natural Language
+
+**User Request:**
+```
+"Help me add a product concept image at the beginning of article.md"
+```
+
+**Process:**
+1. Read article.md to understand the product
+2. Create an appropriate image prompt based on context
+3. Confirm with user: "I'll use this prompt: '...'"
+4. Insert `![Product Concept](__generate:...)` at line 2
+5. Run conversion command to generate and upload
+
+**Result:** Image generated and uploaded to WeChat
+
+---
+
+### Example 5: Article with Pre-written Image Syntax
 
 **Input**: `mixed.md`
 ```markdown
@@ -345,7 +460,7 @@ A story about memories...
 ![Concept Art](__generate:Futuristic gadget design__)
 ```
 
-**Process**:
+**Process:**
 1. Process 3 images in order
 2. Each returns WeChat URL
 3. Replace all placeholders
@@ -496,6 +611,9 @@ md2wechat upload_image photo.jpg
 
 # Download and upload online image
 md2wechat download_and_upload https://example.com/image.jpg
+
+# Generate AI image (requires IMAGE_API_KEY)
+md2wechat generate_image "A cute cat sitting on a windowsill"
 
 # Initialize config
 md2wechat config init

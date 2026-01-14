@@ -1,7 +1,7 @@
 # md2wechat Makefile
 # 适用于开发者和高级用户
 
-.PHONY: all build clean test install help lint fmt vet release
+.PHONY: all build clean test install help lint fmt vet release sync
 
 # 默认目标
 all: build
@@ -80,6 +80,11 @@ deps:
 	@go mod download
 	@go mod tidy
 
+# 同步 Skill 目录
+sync:
+	@echo "🔄 同步 Skill 目录..."
+	@bash scripts/sync.sh
+
 # 帮助
 help:
 	@echo "md2wechat Makefile 命令:"
@@ -98,6 +103,9 @@ help:
 	@echo "依赖管理:"
 	@echo "  make deps        - 下载依赖"
 	@echo "  make install     - 安装到 GOPATH/bin"
+	@echo ""
+	@echo "文档同步:"
+	@echo "  make sync        - 同步 Skill 目录到插件目录"
 	@echo ""
 	@echo "用户快速安装:"
 	@echo "  go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest"

@@ -1,13 +1,9 @@
 package image
 
 import (
-	"bytes"
-	"encoding/json"
+	"context"
 	"fmt"
-	"io"
-	"net/http"
 	"os"
-	"time"
 
 	"github.com/geekjourneyx/md2wechat-skill/internal/config"
 	"github.com/geekjourneyx/md2wechat-skill/internal/wechat"
@@ -20,15 +16,26 @@ type Processor struct {
 	log        *zap.Logger
 	ws         *wechat.Service
 	compressor *Compressor
+	provider   Provider
 }
 
 // NewProcessor 创建图片处理器
 func NewProcessor(cfg *config.Config, log *zap.Logger) *Processor {
+	// 创建图片生成 Provider
+	provider, err := NewProvider(cfg)
+	if err != nil {
+		// 如果配置了 API Key 但创建失败，记录警告
+		if cfg.ImageAPIKey != "" {
+			log.Warn("failed to create image provider, AI image generation will be unavailable", zap.Error(err))
+		}
+	}
+
 	return &Processor{
 		cfg:        cfg,
 		log:        log,
 		ws:         wechat.NewService(cfg, log),
 		compressor: NewCompressor(log, cfg.MaxImageWidth, cfg.MaxImageSize),
+		provider:   provider,
 	}
 }
 
@@ -139,15 +146,24 @@ func (p *Processor) GenerateAndUpload(prompt string) (*GenerateAndUploadResult, 
 		return nil, err
 	}
 
+	// 检查 provider 是否可用
+	if p.provider == nil {
+		return nil, fmt.Errorf("图片生成服务未配置，请检查配置文件中的 api.image_provider 和 api.image_key")
+	}
+
 	// 调用图片生成 API
-	imageURL, err := p.callImageAPI(prompt)
+	ctx := context.Background()
+	result, err := p.provider.Generate(ctx, prompt)
 	if err != nil {
 		return nil, fmt.Errorf("generate image: %w", err)
 	}
-	p.log.Info("image generated", zap.String("url", imageURL))
+	p.log.Info("image generated",
+		zap.String("url", result.URL),
+		zap.String("provider", result.Model),
+		zap.String("size", result.Size))
 
 	// 下载生成的图片
-	tmpPath, err := wechat.DownloadFile(imageURL)
+	tmpPath, err := wechat.DownloadFile(result.URL)
 	if err != nil {
 		return nil, fmt.Errorf("download generated image: %w", err)
 	}
@@ -167,73 +183,17 @@ func (p *Processor) GenerateAndUpload(prompt string) (*GenerateAndUploadResult, 
 	}
 
 	// 上传到微信
-	result, err := p.ws.UploadMaterialWithRetry(processedPath, 3)
+	uploadResult, err := p.ws.UploadMaterialWithRetry(processedPath, 3)
 	if err != nil {
 		return nil, err
 	}
 
 	return &GenerateAndUploadResult{
 		Prompt:      prompt,
-		OriginalURL: imageURL,
-		MediaID:     result.MediaID,
-		WechatURL:   result.WechatURL,
+		OriginalURL: result.URL,
+		MediaID:     uploadResult.MediaID,
+		WechatURL:   uploadResult.WechatURL,
 	}, nil
-}
-
-// callImageAPI 调用图片生成 API（兼容 OpenAI DALL-E）
-func (p *Processor) callImageAPI(prompt string) (string, error) {
-	// 构造请求
-	reqBody := map[string]any{
-		"model":  "dall-e-3",
-		"prompt": prompt,
-		"n":      1,
-		"size":   "1024x1024",
-	}
-
-	jsonData, err := json.Marshal(reqBody)
-	if err != nil {
-		return "", err
-	}
-
-	// 创建请求
-	url := p.cfg.ImageAPIBase + "/images/generations"
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-	if err != nil {
-		return "", err
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+p.cfg.ImageAPIKey)
-
-	// 发送请求
-	client := &http.Client{Timeout: 60 * time.Second}
-	resp, err := client.Do(req)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
-		return "", fmt.Errorf("API error (status %d): %s", resp.StatusCode, string(body))
-	}
-
-	// 解析响应
-	var result struct {
-		Data []struct {
-			URL string `json:"url"`
-		} `json:"data"`
-	}
-
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return "", err
-	}
-
-	if len(result.Data) == 0 {
-		return "", fmt.Errorf("no image generated")
-	}
-
-	return result.Data[0].URL, nil
 }
 
 // GetImageInfo 获取图片信息

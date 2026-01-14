@@ -23,8 +23,11 @@ type Config struct {
 	DefaultTheme       string `json:"default_theme" yaml:"default_theme" env:"DEFAULT_THEME"`
 
 	// 图片生成 API 配置
-	ImageAPIKey  string `json:"image_api_key" yaml:"image_api_key" env:"IMAGE_API_KEY"`
-	ImageAPIBase string `json:"image_api_base" yaml:"image_api_base" env:"IMAGE_API_BASE"`
+	ImageProvider string `json:"image_provider" yaml:"image_provider" env:"IMAGE_PROVIDER"`
+	ImageAPIKey   string `json:"image_api_key" yaml:"image_api_key" env:"IMAGE_API_KEY"`
+	ImageAPIBase  string `json:"image_api_base" yaml:"image_api_base" env:"IMAGE_API_BASE"`
+	ImageModel    string `json:"image_model" yaml:"image_model" env:"IMAGE_MODEL"`
+	ImageSize     string `json:"image_size" yaml:"image_size" env:"IMAGE_SIZE"`
 
 	// 图片处理配置
 	CompressImages bool  `json:"compress_images" yaml:"compress_images" env:"COMPRESS_IMAGES"`
@@ -49,6 +52,9 @@ type configFile struct {
 		MD2WechatKey string `json:"md2wechat_key" yaml:"md2wechat_key"`
 		ImageKey     string `json:"image_key" yaml:"image_key"`
 		ImageBaseURL string `json:"image_base_url" yaml:"image_base_url"`
+		ImageProvider string `json:"image_provider" yaml:"image_provider"`
+		ImageModel    string `json:"image_model" yaml:"image_model"`
+		ImageSize     string `json:"image_size" yaml:"image_size"`
 		ConvertMode  string `json:"convert_mode" yaml:"convert_mode"`
 		DefaultTheme string `json:"default_theme" yaml:"default_theme"`
 		HTTPTimeout  int    `json:"http_timeout" yaml:"http_timeout"`
@@ -76,7 +82,10 @@ func LoadWithDefaults(configPath string) (*Config, error) {
 		MaxImageWidth:      1920,
 		MaxImageSize:       5 * 1024 * 1024, // 5MB
 		HTTPTimeout:        30,
+		ImageProvider:      "openai",
 		ImageAPIBase:       "https://api.openai.com/v1",
+		ImageModel:         "dall-e-3",
+		ImageSize:          "1024x1024",
 	}
 
 	// 1. 尝试从配置文件加载
@@ -189,6 +198,15 @@ func loadFromYAML(cfg *Config, data []byte) error {
 	if cf.API.ImageBaseURL != "" {
 		cfg.ImageAPIBase = cf.API.ImageBaseURL
 	}
+	if cf.API.ImageProvider != "" {
+		cfg.ImageProvider = cf.API.ImageProvider
+	}
+	if cf.API.ImageModel != "" {
+		cfg.ImageModel = cf.API.ImageModel
+	}
+	if cf.API.ImageSize != "" {
+		cfg.ImageSize = cf.API.ImageSize
+	}
 	if cf.API.ConvertMode != "" {
 		cfg.DefaultConvertMode = cf.API.ConvertMode
 	}
@@ -232,6 +250,15 @@ func loadFromJSON(cfg *Config, data []byte) error {
 	if cf.API.ImageBaseURL != "" {
 		cfg.ImageAPIBase = cf.API.ImageBaseURL
 	}
+	if cf.API.ImageProvider != "" {
+		cfg.ImageProvider = cf.API.ImageProvider
+	}
+	if cf.API.ImageModel != "" {
+		cfg.ImageModel = cf.API.ImageModel
+	}
+	if cf.API.ImageSize != "" {
+		cfg.ImageSize = cf.API.ImageSize
+	}
 	if cf.API.ConvertMode != "" {
 		cfg.DefaultConvertMode = cf.API.ConvertMode
 	}
@@ -274,6 +301,15 @@ func loadFromEnv(cfg *Config) {
 	}
 	if v := os.Getenv("IMAGE_API_BASE"); v != "" {
 		cfg.ImageAPIBase = v
+	}
+	if v := os.Getenv("IMAGE_PROVIDER"); v != "" {
+		cfg.ImageProvider = v
+	}
+	if v := os.Getenv("IMAGE_MODEL"); v != "" {
+		cfg.ImageModel = v
+	}
+	if v := os.Getenv("IMAGE_SIZE"); v != "" {
+		cfg.ImageSize = v
 	}
 	if v := os.Getenv("COMPRESS_IMAGES"); v != "" {
 		cfg.CompressImages = getEnvBool("COMPRESS_IMAGES", true)
@@ -370,8 +406,11 @@ func (c *Config) ToMap(maskSecret bool) map[string]any {
 		"default_convert_mode": c.DefaultConvertMode,
 		"default_theme":        c.DefaultTheme,
 		"md2wechat_api_key":    maskIf(c.MD2WechatAPIKey, maskSecret),
+		"image_provider":       c.ImageProvider,
 		"image_api_key":        maskIf(c.ImageAPIKey, maskSecret),
 		"image_api_base":       c.ImageAPIBase,
+		"image_model":          c.ImageModel,
+		"image_size":           c.ImageSize,
 		"compress_images":      c.CompressImages,
 		"max_image_width":      c.MaxImageWidth,
 		"max_image_size_mb":    c.MaxImageSize / 1024 / 1024,
@@ -391,6 +430,9 @@ func SaveConfig(path string, cfg *Config) error {
 	cf.API.MD2WechatKey = cfg.MD2WechatAPIKey
 	cf.API.ImageKey = cfg.ImageAPIKey
 	cf.API.ImageBaseURL = cfg.ImageAPIBase
+	cf.API.ImageProvider = cfg.ImageProvider
+	cf.API.ImageModel = cfg.ImageModel
+	cf.API.ImageSize = cfg.ImageSize
 	cf.API.ConvertMode = cfg.DefaultConvertMode
 	cf.API.DefaultTheme = cfg.DefaultTheme
 	cf.API.HTTPTimeout = cfg.HTTPTimeout

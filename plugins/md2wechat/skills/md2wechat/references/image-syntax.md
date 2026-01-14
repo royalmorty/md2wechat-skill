@@ -1,5 +1,73 @@
 # 图片语法说明
 
+## 图片生成方式
+
+md2wechat 支持 **三种方式** 生成 AI 图片：
+
+### 方式一：自然语言对话 - 文章配图（推荐）
+
+直接用自然语言告诉 Claude 在文章中生成图片：
+
+```
+用户: "帮我在文章开头生成一张产品概念图"
+用户: "在第三段后添加一张对比图"
+用户: "为 article.md 生成一张封面图"
+```
+
+**Claude 会自动：**
+1. 读取文章理解上下文
+2. 创建合适的图片提示词
+3. 在正确位置插入图片生成语法
+4. 调用转换命令完成生成和上传
+
+---
+
+### 方式二：自然语言对话 - 独立生成
+
+只生成一张图片，不关联任何文章：
+
+```
+用户: "生成一张可爱的猫坐在窗台上的图片"
+用户: "创建一个产品概念图：现代智能家居设备"
+用户: "画一张用户注册流程图"
+```
+
+**Claude 会调用：**
+```bash
+md2wechat generate_image "你的提示词"
+```
+
+**返回结果：**
+```json
+{
+  "success": true,
+  "data": {
+    "prompt": "你的提示词",
+    "original_url": "https://...",
+    "wechat_url": "https://mmbiz.qpic.cn/...",
+    "media_id": "..."
+  }
+}
+```
+
+---
+
+### 方式三：Markdown 语法
+
+在 Markdown 中直接写入图片生成语法：
+
+```markdown
+![图片描述](__generate:A cute cat sitting on a windowsill__)
+```
+
+**语法格式：** `![alt](__generate:prompt__)`
+
+- `__generate:` 是固定前缀
+- `prompt` 是图片生成提示词
+- 支持中英文提示词
+
+---
+
 ## 图片引用类型
 
 在 Markdown 中，支持三种图片引用方式：
@@ -35,7 +103,7 @@
 
 **注意**：必须确保图片可访问，且格式正确
 
-### 3. AI 生成图片
+### 3. AI 生成图片（手动语法）
 
 ```markdown
 ![图片描述](__generate:A cute cat sitting on a windowsill__)
@@ -49,15 +117,19 @@
 
 **处理流程**：
 1. 提取 prompt 内容
-2. 调用图片生成 API
+2. 调用图片生成 API（TuZi 或 OpenAI）
 3. 获取生成的图片 URL
 4. 下载图片
-5. 上传到微信素材库
-6. 替换为微信 CDN URL
+5. 压缩（如果宽度 > 1920px）
+6. 上传到微信素材库
+7. 替换为微信 CDN URL
 
 **配置要求**：
 - `IMAGE_API_KEY`: 图片 API 密钥
 - `IMAGE_API_BASE`: 图片 API 基础 URL
+- `IMAGE_PROVIDER`: 服务提供商（tuzi 或 openai）
+
+> **提示**：更推荐使用自然语言对话方式，无需记忆语法。
 
 ## 图片占位符
 
@@ -136,6 +208,24 @@ bash scripts/run.sh generate_image "A futuristic city skyline at sunset with fly
 | 图片格式不支持 | 尝试转换，失败则跳过 |
 
 ## 示例
+
+### 示例 0：自然语言方式（推荐）
+
+**用户请求：**
+```
+"帮我在 article.md 开头加一张产品概念图"
+```
+
+**Claude 处理：**
+1. 读取 article.md
+2. 理解产品类型和内容
+3. 创建图片提示词
+4. 在开头插入 `![产品概念](__generate:...)`
+5. 运行转换命令
+
+**结果：** 图片自动生成并上传到微信
+
+---
 
 ### 示例 1：纯本地图片
 

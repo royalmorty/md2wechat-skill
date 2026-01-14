@@ -7,6 +7,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	neturl "net/url"
 	"os"
 	"path/filepath"
 	"time"
@@ -193,9 +194,12 @@ func DownloadFile(url string) (string, error) {
 
 	// 创建临时文件
 	tmpDir := os.TempDir()
-	ext := filepath.Ext(url)
-	if ext == "" {
-		ext = ".jpg"
+	// 从 URL 路径中提取扩展名，排除查询参数
+	ext := ".jpg" // 默认扩展名
+	if parsedURL, err := neturl.Parse(url); err == nil {
+		if pathExt := filepath.Ext(parsedURL.Path); pathExt != "" {
+			ext = pathExt
+		}
 	}
 	tmpPath := filepath.Join(tmpDir, "md2wechat_download_"+ext)
 	tmpFile, err := os.Create(tmpPath)

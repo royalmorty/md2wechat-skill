@@ -24,7 +24,11 @@ if [ "$OS" = "Darwin" ]; then
         BINARY="md2wechat-darwin-amd64"
     fi
 elif [ "$OS" = "Linux" ]; then
-    BINARY="md2wechat-linux-amd64"
+    if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
+        BINARY="md2wechat-linux-arm64"
+    else
+        BINARY="md2wechat-linux-amd64"
+    fi
 else
     echo "❌ 不支持的系统: $OS"
     exit 1
