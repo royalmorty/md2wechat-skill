@@ -1,0 +1,27 @@
+{
+  "generate_image_success": {
+    "created": 1234567890,
+    "data": [
+      {
+        "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/generated-image.jpg"
+      }
+    ],
+    "revised_prompt": "一只金色的猫，坐在窗台上，阳光洒在它身上"
+  },
+  "generate_image_error": {
+    "error": {
+      "message": "Invalid API key",
+      "type": "invalid_request_error",
+      "param": null,
+      "code": "invalid_api_key"
+    }
+  },
+  "generate_image_rate_limit": {
+    "error": {
+      "message": "Rate limit exceeded",
+      "type": "rate_limit_error",
+      "param": null,
+      "code": "rate_limit_exceeded"
+    }
+  }
+}

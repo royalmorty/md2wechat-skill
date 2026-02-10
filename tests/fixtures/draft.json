@@ -1,0 +1,14 @@
+{
+  "articles": [
+    {
+      "title": "测试文章标题",
+      "author": "测试作者",
+      "digest": "这是一篇测试文章的摘要",
+      "content": "<p>这是测试文章的 HTML 内容</p>",
+      "thumb_media_id": "test_media_id_123",
+      "show_cover_pic": 1,
+      "need_open_comment": 1,
+      "only_fans_can_comment": 0
+    }
+  ]
+}

@@ -21,7 +21,7 @@
 ### ❓ 下载后双击没反应
 
 **Windows**：
-1. 右键点击 `md2wechat.exe`
+1. 右键点击 `writer.exe`
 2. 选择「属性」
 3. 点击「解除锁定」（如果有）
 4. 再双击运行
@@ -39,7 +39,7 @@
 #### Windows 解决方法：
 
 **方法 A：简单方式（推荐）**
-1. 把 `md2wechat.exe` 复制到 `C:\Windows\System32\`
+1. 把 `writer.exe` 复制到 `C:\Windows\System32\`
 2. 重新打开命令提示符
 
 **方法 B：添加到 PATH**
@@ -53,11 +53,11 @@
 
 ```bash
 # 把程序移动到系统目录
-sudo mv md2wechat /usr/local/bin/
+sudo mv writer /usr/local/bin/
 
 # 如果提示没有这个目录，先创建
 sudo mkdir -p /usr/local/bin
-sudo mv md2wechat /usr/local/bin/
+sudo mv writer /usr/local/bin/
 ```
 
 ---
@@ -85,28 +85,28 @@ sudo mv md2wechat /usr/local/bin/
 
 2. **创建配置文件**
    ```bash
-   md2wechat config init
+   writer config init
    ```
 
 3. **编辑配置文件**
-   - 用记事本打开 `md2wechat.yaml`
+   - 用记事本打开 `config.yaml`
    - 填入你的 AppID 和 Secret
    - 保存
 
 4. **验证配置**
    ```bash
-   md2wechat config validate
+   writer config validate
    ```
 
 ---
 
 ### ❓ 配置文件在哪？
 
-配置文件会在你运行 `md2wechat config init` 的目录下创建。
+配置文件会在你运行 `writer config init` 的目录下创建。
 
 **查找配置文件**：
-- Windows：当前文件夹，如 `C:\Users\你的用户名\md2wechat.yaml`
-- Mac/Linux：当前文件夹，如 `~/md2wechat.yaml`
+- Windows：当前文件夹，如 `C:\Users\你的用户名\config.yaml`
+- Mac/Linux：当前文件夹，如 `~/config.yaml`
 
 ---
 
@@ -118,13 +118,13 @@ sudo mv md2wechat /usr/local/bin/
 
 ```bash
 # 错误示例（文件不存在）
-md2wechat convert 文章.md
+writer convert 文章.md
 
 # 正确示例（使用正确的文件名）
-md2wechat convert 我的文章.md
+writer convert 我的文章.md
 
 # 或者使用完整路径
-md2wechat convert /Users/你的名字/Documents/文章.md
+writer convert /Users/你的名字/Documents/文章.md
 ```
 
 **可能原因 2**：文件编码不是 UTF-8
@@ -153,11 +153,11 @@ md2wechat convert /Users/你的名字/Documents/文章.md
 
 **解决方法 A**：使用 API 模式（更简单）
 ```bash
-md2wechat convert 文章.md --mode api
+writer convert 文章.md --mode ai
 ```
 
 **解决方法 B**：配置 AI API Key
-1. 编辑 `md2wechat.yaml`
+1. 编辑 `config.yaml`
 2. 添加：
    ```yaml
    api:
@@ -174,10 +174,10 @@ md2wechat convert 文章.md --mode api
 
 ```bash
 # 错误（不会上传图片）
-md2wechat convert 文章.md
+writer convert 文章.md
 
 # 正确（上传图片）
-md2wechat convert 文章.md --upload
+writer convert 文章.md --upload
 ```
 
 ---
@@ -231,10 +231,10 @@ md2wechat convert 文章.md --upload
 **解决方法**：
 ```bash
 # 1. 验证配置
-md2wechat config validate
+writer config validate
 
 # 2. 等待几分钟后重试
-md2wechat convert 文章.md --draft
+writer convert 文章.md --draft
 ```
 
 ---
@@ -250,7 +250,7 @@ md2wechat convert 文章.md --draft
 - 尝试简化内容后重试
 - 或先保存为 JSON：
   ```bash
-  md2wechat convert 文章.md --save-draft draft.json
+  writer convert 文章.md --save-draft draft.json
   ```
 
 **可能原因 3**：API 调用次数超限
@@ -268,20 +268,20 @@ md2wechat convert 文章.md --draft
 
 ```bash
 # 1. 检查版本
-md2wechat --version
+writer --version
 
 # 2. 验证配置
-md2wechat config validate
+writer config validate
 
 # 3. 查看配置（不显示密码）
-md2wechat config show
+writer config show
 ```
 
 ### 获取支持
 
 1. 查看 [常见问题](FAQ.md)
 2. 查看 [使用教程](USAGE.md)
-3. 提交 Issue：https://github.com/geekjourneyx/md2wechat-skill/issues
+3. 提交 Issue：https://github.com/royalrick/wechatwriter/app/issues
 
 提交问题时，请附上：
 - 你的操作系统（Windows 10 / macOS 13 / Linux）

@@ -1,10 +1,10 @@
 # 示例文章：我的第一篇微信公众号文章
 
-这是一篇示例文章，用于演示 md2wechat 的功能。
+这是一篇示例文章，用于演示 wechatwriter 的功能。
 
 ## 功能特性
 
-md2wechat 支持以下功能：
+wechatwriter 支持以下功能：
 
 - Markdown 转 HTML
 - 自动图片上传
@@ -48,7 +48,7 @@ func hello() {
 
 ### 有序列表
 
-1. 第一步：安装 md2wechat
+1. 第一步：安装 wechatwriter
 2. 第二步：配置微信凭证
 3. 第三步：转换文章
 
@@ -66,6 +66,6 @@ func hello() {
 
 ## 结语
 
-感谢使用 md2wechat！
+感谢使用 wechatwriter！
 
-如有问题，请访问 [GitHub](https://github.com/geekjourneyx/md2wechat-skill)。
+如有问题，请访问 [GitHub](https://github.com/royalrick/wechatwriter)。

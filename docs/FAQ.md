@@ -15,7 +15,7 @@
 
 ## 安装问题
 
-### Q1: 提示 "command not found: md2wechat"
+### Q1: 提示 "command not found: writer"
 
 **原因**：二进制文件不在 PATH 中
 
@@ -33,7 +33,7 @@ source ~/.bashrc
 **解决方案 B**：使用完整路径
 
 ```bash
-/usr/local/bin/md2wechat --help
+/usr/local/bin/writer --help
 ```
 
 ---
@@ -52,7 +52,7 @@ export GOPROXY=https://goproxy.cn,direct
 go clean -modcache
 
 # 3. 重新安装
-go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest
+go install github.com/royalrick/wechatwriter/app/cmd/writer@latest
 ```
 
 ---
@@ -66,7 +66,7 @@ go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest
 ```bash
 # 允许任何来源的的应用（系统偏好设置 > 安全性与隐私）
 # 或使用命令行
-sudo xattr -cr /Applications/md2wechat
+sudo xattr -cr /Applications/writer
 ```
 
 ---
@@ -80,8 +80,8 @@ sudo xattr -cr /Applications/md2wechat
 **解决方案 A**：使用配置文件
 
 ```bash
-md2wechat config init
-# 编辑生成的 md2wechat.yaml，填入：
+writer config init
+# 编辑生成的 config.yaml，填入：
 # wechat:
 #   appid: "your_appid"
 #   secret: "your_secret"
@@ -120,40 +120,40 @@ export WECHAT_SECRET="your_secret_here"
 
 ```bash
 # 1. 检查配置文件位置
-md2wechat config show
+writer config show
 
 # 2. 验证配置文件格式
-cat md2wechat.yaml
+cat config.yaml
 
 # 3. 重新初始化配置
-md2wechat config init
+writer config init
 ```
 
 **支持的配置文件位置**：
-- `./md2wechat.yaml`（当前目录，优先级最高）
-- `~/.md2wechat.yaml`
-- `~/.config/md2wechat/config.yaml`
+- `./config.yaml`（当前目录，优先级最高）
+- `~/.config.yaml`
+- `~/.config/wechatwriter/config.yaml`
 
 ---
 
 ### Q6: API 模式提示需要 API Key
 
-**原因**：API 模式需要 [md2wechat.cn](https://md2wechat.cn) 的 API Key
+**原因**：API 模式需要 [wechatwriter.cn](https://wechatwriter.cn) 的 API Key
 
 **解决方案 A**：获取 API Key
 
-1. 访问 [md2wechat.cn](https://md2wechat.cn)
+1. 访问 [wechatwriter.cn](https://wechatwriter.cn)
 2. 注册账号并获取 API Key
 3. 配置：
 
 ```bash
-export MD2WECHAT_API_KEY="your_key"
+export WECHATWRITER_API_KEY="your_key"
 ```
 
-**解决方案 B**：使用 AI 模式（不需要 md2wechat API Key）
+**解决方案 B**：使用 AI 模式（不需要 writer API Key）
 
 ```bash
-md2wechat convert article.md --mode ai --theme autumn-warm
+writer convert article.md --mode ai --theme autumn-warm
 ```
 
 ---
@@ -199,10 +199,10 @@ markdownlint article.md
 export IMAGE_API_KEY="your_claude_api_key"
 
 # 2. 验证
-md2wechat config validate
+writer config validate
 
 # 3. 重试
-md2wechat convert article.md --mode ai
+writer convert article.md --mode ai
 ```
 
 ---
@@ -216,7 +216,7 @@ md2wechat convert article.md --mode ai
 1. **使用 API 模式**（更稳定）
 
 ```bash
-md2wechat convert article.md --mode api
+writer convert article.md --mode ai
 ```
 
 2. **检查是否使用了内联样式**
@@ -257,7 +257,7 @@ convert input.tiff output.jpg
 ```bash
 # 程序会自动压缩，但可以先手动压缩
 # 配置压缩参数
-# md2wechat.yaml:
+# config.yaml:
 image:
   compress: true
   max_width: 1920
@@ -270,9 +270,9 @@ image:
 
 ```bash
 # 分批上传图片
-md2wechat upload_image image1.jpg
+writer upload_image image1.jpg
 sleep 5
-md2wechat upload_image image2.jpg
+writer upload_image image2.jpg
 ```
 
 ---
@@ -288,7 +288,7 @@ md2wechat upload_image image2.jpg
 export IMAGE_API_KEY="your_openai_or_claude_key"
 
 # 2. 验证
-md2wechat generate_image "test prompt"
+writer generate_image "test prompt"
 
 # 3. 检查 API 额度
 # 登录对应的 API 提供商查看剩余额度
@@ -304,7 +304,7 @@ md2wechat generate_image "test prompt"
 
 ```bash
 # 必须使用 --upload 参数
-md2wechat convert article.md --upload -o output.html
+writer convert article.md --upload -o output.html
 ```
 
 ---
@@ -349,7 +349,7 @@ curl ipinfo.io/ip
 # 白名单配置通常几分钟内生效
 # 等待 5 分钟后重试
 sleep 300
-md2wechat convert article.md --upload --draft
+writer convert article.md --upload --draft
 ```
 
 > **注意**：
@@ -367,10 +367,10 @@ md2wechat convert article.md --upload --draft
 
 ```bash
 # 1. 检查 AppID 和 Secret 是否正确
-md2wechat config show --show-secret
+writer config show --show-secret
 
 # 2. 重新配置
-md2wechat config init
+writer config init
 ```
 
 ---
@@ -392,7 +392,7 @@ md2wechat config init
 
 ```bash
 # 先保存为 JSON，检查内容
-md2wechat convert article.md --save-draft draft.json
+writer convert article.md --save-draft draft.json
 cat draft.json
 ```
 
@@ -410,7 +410,7 @@ sleep 60
 
 # 方案 2：分批处理
 for file in articles/*.md; do
-  md2wechat convert "$file" --draft
+  writer convert "$file" --draft
   sleep 5
 done
 ```
@@ -433,14 +433,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install md2wechat
-        run: go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest
+      - name: Install writer
+        run: go install github.com/royalrick/wechatwriter/app/cmd/writer@latest
       - name: Convert and publish
         env:
           WECHAT_APPID: ${{ secrets.WECHAT_APPID }}
           WECHAT_SECRET: ${{ secrets.WECHAT_SECRET }}
         run: |
-          md2wechat convert article.md --upload --draft
+          writer convert article.md --upload --draft
 ```
 
 ---
@@ -450,7 +450,7 @@ jobs:
 **解决方案**：使用 custom-prompt
 
 ```bash
-md2wechat convert article.md --mode ai --custom-prompt "
+writer convert article.md --mode ai --custom-prompt "
 请使用以下配色：
 - 主色：#e53e3e（红色）
 - 副色：#3182ce（蓝色）
@@ -466,7 +466,7 @@ md2wechat convert article.md --mode ai --custom-prompt "
 
 ---
 
-### Q19: 如何批量转换多个文件？
+### Q20: 如何批量转换多个文件？
 
 **解决方案**：使用 Shell 脚本
 
@@ -477,7 +477,7 @@ md2wechat convert article.md --mode ai --custom-prompt "
 for file in articles/*.md; do
   echo "Converting $file..."
 
-  md2wechat convert "$file" \
+  writer convert "$file" \
     --mode ai \
     --theme autumn-warm \
     --upload \
@@ -496,12 +496,12 @@ done
 
 ```bash
 # 方案 1：查看命令输出
-md2wechat convert article.md --preview 2>&1 | tee debug.log
+writer convert article.md --preview 2>&1 | tee debug.log
 
 # 方案 2：逐步测试
-md2wechat config validate       # 1. 验证配置
-md2wechat upload_image test.jpg  # 2. 测试图片上传
-md2wechat convert test.md --preview  # 3. 测试转换
+writer config validate       # 1. 验证配置
+writer upload_image test.jpg  # 2. 测试图片上传
+writer convert test.md --preview  # 3. 测试转换
 ```
 
 ---
@@ -513,8 +513,8 @@ md2wechat convert test.md --preview  # 3. 测试转换
 1. **查看命令帮助**
 
 ```bash
-md2wechat --help
-md2wechat convert --help
+writer --help
+writer convert --help
 ```
 
 2. **查看文档**
@@ -525,7 +525,7 @@ md2wechat convert --help
 
 3. **提交 Issue**
 
-访问 [GitHub Issues](https://github.com/geekjourneyx/md2wechat-skill/issues)
+访问 [GitHub Issues](https://github.com/royalrick/wechatwriter/app/issues)
 
 ---
 
@@ -535,18 +535,18 @@ md2wechat convert --help
 
 1. **版本信息**
    ```bash
-   md2wechat --version
+   writer --version
    go version
    ```
 
 2. **配置信息**
    ```bash
-   md2wechat config show
+   writer config show
    ```
 
 3. **错误信息**
    ```bash
-   md2wechat convert article.md 2>&1
+   writer convert article.md 2>&1
    ```
 
 4. **系统信息**
@@ -556,4 +556,4 @@ md2wechat convert --help
    systeminfo  # Windows
    ```
 
-将以上信息提交到 [GitHub Issues](https://github.com/geekjourneyx/md2wechat-skill/issues)，我们会尽快回复。
+将以上信息提交到 [GitHub Issues](https://github.com/royalrick/wechatwriter/app/issues)，我们会尽快回复。

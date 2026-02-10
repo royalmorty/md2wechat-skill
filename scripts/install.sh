@@ -1,12 +1,12 @@
 #!/bin/bash
-# md2wechat 自动安装脚本
+# Writer for WeChat 自动安装脚本
 # 适用于：macOS / Linux
-# 使用方法：curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/scripts/install.sh | bash
+# 使用方法：curl -fsSL https://raw.githubusercontent.com/royalrick/wechatwriter/main/scripts/install.sh | bash
 
 set -e
 
 echo "========================================"
-echo "   md2wechat 安装向导"
+echo "   Writer for WeChat 安装向导"
 echo "========================================"
 echo ""
 
@@ -19,15 +19,15 @@ echo "检测到系统: $OS $ARCH"
 # 确定下载链接
 if [ "$OS" = "Darwin" ]; then
     if [ "$ARCH" = "arm64" ]; then
-        BINARY="md2wechat-darwin-arm64"
+        BINARY="writer-darwin-arm64"
     else
-        BINARY="md2wechat-darwin-amd64"
+        BINARY="writer-darwin-amd64"
     fi
 elif [ "$OS" = "Linux" ]; then
     if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
-        BINARY="md2wechat-linux-arm64"
+        BINARY="writer-linux-arm64"
     else
-        BINARY="md2wechat-linux-amd64"
+        BINARY="writer-linux-amd64"
     fi
 else
     echo "❌ 不支持的系统: $OS"
@@ -43,20 +43,20 @@ mkdir -p "$INSTALL_DIR"
 
 # 下载
 echo "正在下载..."
-DOWNLOAD_URL="https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/$BINARY"
+DOWNLOAD_URL="https://github.com/royalrick/wechatwriter/app/releases/latest/download/$BINARY"
 echo "下载地址: $DOWNLOAD_URL"
 
 if command -v curl >/dev/null 2>&1; then
-    curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/md2wechat"
+    curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/writer"
 elif command -v wget >/dev/null 2>&1; then
-    wget -q "$DOWNLOAD_URL" -O "$INSTALL_DIR/md2wechat"
+    wget -q "$DOWNLOAD_URL" -O "$INSTALL_DIR/writer"
 else
     echo "❌ 需要 curl 或 wget 来下载文件"
     exit 1
 fi
 
 # 添加执行权限
-chmod +x "$INSTALL_DIR/md2wechat"
+chmod +x "$INSTALL_DIR/writer"
 
 echo ""
 echo "✅ 下载完成！"
@@ -88,9 +88,9 @@ echo "   安装完成！"
 echo "========================================"
 echo ""
 echo "下一步："
-echo "  1. 运行: md2wechat config init"
+echo "  1. 运行: writer config init"
 echo "  2. 编辑生成的配置文件"
-echo "  3. 运行: md2wechat convert 文章.md --preview"
+echo "  3. 运行: writer convert 文章.md --preview"
 echo ""
-echo "查看帮助: md2wechat --help"
+echo "查看帮助: writer --help"
 echo ""

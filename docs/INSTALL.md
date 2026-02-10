@@ -1,6 +1,6 @@
 # 安装指南
 
-本文档详细说明 md2wechat 的各种安装方式。
+本文档详细说明 writer 的各种安装方式。
 
 ## 目录
 
@@ -40,7 +40,7 @@ go version
 1. **使用 go install 安装**
 
 ```bash
-go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest
+go install github.com/royalrick/wechatwriter/app/cmd/writer@latest
 ```
 
 2. **确保 GOPATH/bin 在 PATH 中**
@@ -56,8 +56,8 @@ source ~/.bashrc  # 或 source ~/.zshrc
 3. **验证安装**
 
 ```bash
-md2wechat --version
-md2wechat --help
+writer --version
+writer --help
 ```
 
 ---
@@ -66,15 +66,15 @@ md2wechat --help
 
 ### 下载地址
 
-访问 [Releases](https://github.com/geekjourneyx/md2wechat-skill/releases) 页面下载适合你系统的版本。
+访问 [Releases](https://github.com/royalrick/wechatwriter/app/releases) 页面下载适合你系统的版本。
 
 | 系统 | 文件名 |
 |------|--------|
-| Linux (amd64) | `md2wechat-linux-amd64` |
-| Linux (arm64) | `md2wechat-linux-arm64` |
-| macOS (Intel) | `md2wechat-darwin-amd64` |
-| macOS (Apple Silicon) | `md2wechat-darwin-arm64` |
-| Windows (64位) | `md2wechat-windows-amd64.exe` |
+| Linux (amd64) | `writer-linux-amd64` |
+| Linux (arm64) | `writer-linux-arm64` |
+| macOS (Intel) | `writer-darwin-amd64` |
+| macOS (Apple Silicon) | `writer-darwin-arm64` |
+| Windows (64位) | `writer-windows-amd64.exe` |
 
 ### 安装步骤
 
@@ -82,16 +82,16 @@ md2wechat --help
 
 ```bash
 # 1. 下载
-wget https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64
+wget https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-amd64
 
 # 2. 添加执行权限
-chmod +x md2wechat-linux-amd64
+chmod +x writer-linux-amd64
 
 # 3. 移动到 PATH
-sudo mv md2wechat-linux-amd64 /usr/local/bin/md2wechat
+sudo mv writer-linux-amd64 /usr/local/bin/writer
 
 # 4. 验证
-md2wechat --help
+writer --help
 ```
 
 #### Windows
@@ -104,7 +104,7 @@ md2wechat --help
 # 将文件移动到某个 PATH 目录，或将其所在目录添加到 PATH
 
 # 3. 验证
-md2wechat.exe --help
+writer.exe --help
 ```
 
 ---
@@ -120,17 +120,17 @@ md2wechat.exe --help
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/geekjourneyx/md2wechat-skill.git
-cd md2wechat-skill
+git clone https://github.com/royalrick/wechatwriter.git
+cd wechatwriter
 
 # 2. 下载依赖
 go mod download
 
 # 3. 编译
-go build -o md2wechat ./cmd/md2wechat
+go build -o writer ./cmd/writer
 
 # 4. 安装（可选）
-sudo mv md2wechat /usr/local/bin/  # Linux/macOS
+sudo mv writer /usr/local/bin/  # Linux/macOS
 # 或将当前目录添加到 PATH
 ```
 
@@ -140,13 +140,13 @@ sudo mv md2wechat /usr/local/bin/  # Linux/macOS
 
 ```bash
 # Linux amd64
-GOOS=linux GOARCH=amd64 go build -o md2wechat-linux-amd64 ./cmd/md2wechat
+GOOS=linux GOARCH=amd64 go build -o writer-linux-amd64 ./cmd/writer
 
 # macOS arm64 (Apple Silicon)
-GOOS=darwin GOARCH=arm64 go build -o md2wechat-darwin-arm64 ./cmd/md2wechat
+GOOS=darwin GOARCH=arm64 go build -o writer-darwin-arm64 ./cmd/writer
 
 # Windows amd64
-GOOS=windows GOARCH=amd64 go build -o md2wechat-windows-amd64.exe ./cmd/md2wechat
+GOOS=windows GOARCH=amd64 go build -o writer-windows-amd64.exe ./cmd/writer
 ```
 
 ---
@@ -156,17 +156,17 @@ GOOS=windows GOARCH=amd64 go build -o md2wechat-windows-amd64.exe ./cmd/md2wecha
 ### 拉取镜像
 
 ```bash
-docker pull ghcr.io/geekjourneyx/md2wechat:latest
+docker pull ghcr.io/royalrick/writer:latest
 ```
 
 ### 使用方式
 
 ```bash
 # 基础用法
-docker run --rm -v $(pwd):/workspace md2wechat convert article.md
+docker run --rm -v $(pwd):/workspace writer convert article.md
 
 # 带配置文件
-docker run --rm -v $(pwd):/workspace md2wechat config init
+docker run --rm -v $(pwd):/workspace writer config init
 ```
 
 ### Dockerfile
@@ -177,11 +177,11 @@ docker run --rm -v $(pwd):/workspace md2wechat config init
 FROM golang:1.24-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN go build -o md2wechat ./cmd/md2wechat
+RUN go build -o writer ./cmd/writer
 
 FROM alpine:latest
-COPY --from=builder /app/md2wechat /usr/local/bin/
-ENTRYPOINT ["md2wechat"]
+COPY --from=builder /app/writer /usr/local/bin/
+ENTRYPOINT ["writer"]
 ```
 
 ---
@@ -192,19 +192,19 @@ ENTRYPOINT ["md2wechat"]
 
 ```bash
 # 查看版本
-md2wechat --help
+writer --help
 
 # 查看所有命令
-md2wechat help
+writer help
 
 # 测试配置
-md2wechat config validate
+writer config validate
 ```
 
 预期输出：
 
 ```
-md2wechat converts Markdown articles to WeChat Official Account format
+writer converts Markdown articles to WeChat Official Account format
 ...
 ```
 
@@ -215,23 +215,23 @@ md2wechat converts Markdown articles to WeChat Official Account format
 ### Go 工具链安装
 
 ```bash
-rm $(go env GOPATH)/bin/md2wechat
+rm $(go env GOPATH)/bin/writer
 ```
 
 ### 预编译二进制
 
 ```bash
 # Linux/macOS
-sudo rm /usr/local/bin/md2wechat
+sudo rm /usr/local/bin/writer
 
 # Windows
-# 删除安装目录下的 md2wechat.exe
+# 删除安装目录下的 writer.exe
 ```
 
 ### Docker
 
 ```bash
-docker rmi ghcr.io/geekjourneyx/md2wechat:latest
+docker rmi ghcr.io/royalrick/writer:latest
 ```
 
 ---

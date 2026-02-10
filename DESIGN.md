@@ -1,4 +1,4 @@
-# md2wechat-skill 设计方案
+# wechatwriter 设计方案
 
 > 版本: v2.0
 > 更新时间: 2026-01-11
@@ -163,12 +163,12 @@
 ## 4. 目录结构
 
 ```
-md2wechat-skill/
-├── cmd/md2wechat/
+wechatwriter/
+├── app/
 │   ├── main.go              ✅ 主入口 (cobra 命令)
 │   └── convert.go           📝 convert 命令 (待实现)
 │
-├── internal/
+├── app/
 │   ├── config/
 │   │   └── config.go        ✅ 配置管理
 │   │
@@ -282,8 +282,7 @@ md2wechat convert <markdown_file> [options]
 ### 6.2 使用示例
 
 ```bash
-# API 模式预览
-md2wechat convert article.md --mode api --theme default --preview
+md2wechat convert article.md --mode ai --theme default --preview
 
 # AI 模式 + 上传图片
 md2wechat convert article.md --mode ai --theme elegant --upload
@@ -292,10 +291,10 @@ md2wechat convert article.md --mode ai --theme elegant --upload
 md2wechat convert article.md --mode ai --custom-prompt "使用暗黑科技风格..."
 
 # 创建草稿
-md2wechat convert article.md --mode api --theme default --upload --draft
+md2wechat convert article.md --mode ai --theme default --upload --draft
 
 # 输出到文件
-md2wechat convert article.md --mode api --output output.html
+md2wechat convert article.md --mode ai --output output.html
 ```
 
 ---
@@ -339,7 +338,7 @@ md2wechat convert article.md --mode api --output output.html
 ### 7.2 主题代码结构
 
 ```go
-// internal/converter/theme.go
+// app/converter/theme.go
 
 var BuiltInThemes = map[string]Theme{
     // API 主题
@@ -413,7 +412,7 @@ const minimalPrompt = `使用极简风格生成微信公众号 HTML：
 ### 8.2 配置结构扩展
 
 ```go
-// internal/config/config.go
+// app/config/config.go
 
 type Config struct {
     // 微信配置
@@ -449,7 +448,7 @@ type Config struct {
 │  ┌─────────────────────────────────────────────────────────────────┐    │
 │  │  阶段 1: converter 模块 (核心)                                   │    │
 │  ├─────────────────────────────────────────────────────────────────┤    │
-│  │  1.1 创建 internal/converter 目录                               │    │
+│  │  1.1 创建 app/converter 目录                               │    │
 │  │  1.2 实现 converter.go - 接口和数据结构                         │    │
 │  │  1.3 实现 api.go - 调用 md2wechat.cn API                        │    │
 │  │  1.4 实现 ai.go  - AI 模式框架                                  │    │
@@ -460,7 +459,7 @@ type Config struct {
 │  │  阶段 2: 图片压缩完善                                            │    │
 │  ├─────────────────────────────────────────────────────────────────┤    │
 │  │  2.1 添加 imaging 依赖                                          │    │
-│  │  2.2 实现 internal/image/compress.go                            │    │
+│  │  2.2 实现 app/image/compress.go                            │    │
 │  │  2.3 集成到 processor.go 的 compressIfNeeded                     │    │
 │  └─────────────────────────────────────────────────────────────────┘    │
 │                                    ↓                                     │

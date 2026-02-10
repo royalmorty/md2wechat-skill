@@ -13,8 +13,8 @@
 在 Claude Code 中运行：
 
 ```bash
-/plugin marketplace add geekjourneyx/md2wechat-skill
-/plugin install md2wechat@geekjourneyx-md2wechat-skill
+/plugin marketplace add royalrick/wechatwriter
+/plugin install wechatwriter@royalrick-wechatwriter
 ```
 
 ### 第二步：开始使用
@@ -43,10 +43,10 @@
 
 | 你的系统 | 下载链接 | 安装位置 |
 |----------|----------|----------|
-| Windows 10/11 | [下载 .exe](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-windows-amd64.exe) | 任意文件夹或 `C:\Windows\System32\` |
-| Mac (Intel芯片) | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
-| Mac (M1/M2芯片) | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
-| Linux | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| Windows 10/11 | [下载 .exe](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-windows-amd64.exe) | 任意文件夹或 `C:\Windows\System32\` |
+| Mac (Intel芯片) | [下载](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-darwin-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| Mac (M1/M2芯片) | [下载](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-darwin-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| Linux | [下载](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
 
 ---
 
@@ -54,11 +54,11 @@
 
 #### Windows 用户
 
-1. 下载 `md2wechat-windows-amd64.exe`
-2. 可以重命名为 `md2wechat.exe`（方便输入）
+1. 下载 `writer-windows-amd64.exe`
+2. 可以重命名为 `writer.exe`（方便输入）
 3. **方法 A（推荐）**：直接放到你想放的文件夹，用时打开 CMD 切换到那个文件夹
 4. **方法 B（全局可用）**：复制到 `C:\Windows\System32\`
-5. 测试：打开「命令提示符」或「PowerShell」，输入 `md2wechat --help`
+5. 测试：打开「命令提示符」或「PowerShell」，输入 `writer --help`
 
 #### Mac / Linux 用户
 
@@ -66,23 +66,23 @@
 
 ```bash
 # 复制这条命令，粘贴到终端，回车
-curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/royalrick/wechatwriter/main/scripts/install.sh | bash
 ```
 
 **方法二：手动安装**
 
 ```bash
 # 1. 下载
-curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64
+curl -Lo writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-amd64
 
 # 2. 添加执行权限
-chmod +x md2wechat
+chmod +x writer
 
 # 3. 移动到系统目录
-sudo mv md2wechat /usr/local/bin/
+sudo mv writer /usr/local/bin/
 
 # 4. 测试
-md2wechat --help
+writer --help
 ```
 
 **方法三：用户目录安装（无需 sudo）**
@@ -92,10 +92,10 @@ md2wechat --help
 mkdir -p ~/.local/bin
 
 # 2. 下载到用户目录
-curl -Lo ~/.local/bin/md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64
+curl -Lo ~/.local/bin/writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-amd64
 
 # 3. 添加执行权限
-chmod +x ~/.local/bin/md2wechat
+chmod +x ~/.local/bin/writer
 
 # 4. 添加到 PATH（只需一次）
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc   # 如果你用 bash
@@ -103,7 +103,7 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc    # 如果你用 zsh
 source ~/.bashrc   # 或 source ~/.zshrc
 
 # 5. 测试
-md2wechat --help
+writer --help
 ```
 
 ---
@@ -113,7 +113,7 @@ md2wechat --help
 输入以下命令，如果看到帮助信息，说明安装成功：
 
 ```bash
-md2wechat --help
+writer --help
 ```
 
 ---
@@ -135,14 +135,14 @@ md2wechat --help
 
 ```bash
 # 输入这个命令，回车
-md2wechat config init
+writer config init
 ```
 
-这会创建一个 `md2wechat.yaml` 文件，用记事本打开它。
+这会创建一个 `config.yaml` 文件，用记事本打开它。
 
 ### 2.3 填写你的信息
 
-用记事本打开 `md2wechat.yaml`，修改这两行：
+用记事本打开 `config.yaml`，修改这两行：
 
 ```yaml
 wechat:
@@ -170,10 +170,10 @@ wechat:
 
 ```bash
 # 预览效果（先看看怎么样）
-md2wechat convert 我的文章.md --preview
+writer convert 我的文章.md --preview
 
 # 满意后，直接发送到微信草稿箱
-md2wechat convert 我的文章.md --draft
+writer convert 我的文章.md --draft
 ```
 
 ### 3.3 在微信中查看
@@ -189,11 +189,11 @@ md2wechat convert 我的文章.md --draft
 
 | 你想做什么 | 输入这个命令 |
 |------------|--------------|
-| 预览文章 | `md2wechat convert 文章.md --preview` |
-| 发送到草稿箱 | `md2wechat convert 文章.md --draft` |
-| 使用精美主题 | `md2wechat convert 文章.md --mode ai --theme autumn-warm` |
-| 查看配置 | `md2wechat config show` |
-| 检查配置是否正确 | `md2wechat config validate` |
+| 预览文章 | `writer convert 文章.md --preview` |
+| 发送到草稿箱 | `writer convert 文章.md --draft` |
+| 使用精美主题 | `writer convert 文章.md --mode ai --theme autumn-warm` |
+| 查看配置 | `writer config show` |
+| 检查配置是否正确 | `writer config validate` |
 
 ---
 
@@ -207,7 +207,7 @@ md2wechat convert 我的文章.md --draft
 
 **用法示例**：
 ```bash
-md2wechat convert 我的文章.md --mode ai --theme autumn-warm --draft
+writer convert 我的文章.md --mode ai --theme autumn-warm --draft
 ```
 
 ---
@@ -216,15 +216,15 @@ md2wechat convert 我的文章.md --mode ai --theme autumn-warm --draft
 
 ### 问题 1：提示 "命令不存在"
 
-**Windows**：把下载的 `md2wechat.exe` 放到 `C:\Windows\System32\` 文件夹
+**Windows**：把下载的 `writer.exe` 放到 `C:\Windows\System32\` 文件夹
 
 **Mac/Linux**：
 ```bash
 # 给文件执行权限
-chmod +x md2wechat
+chmod +x writer
 
 # 移动到系统目录
-sudo mv md2wechat /usr/local/bin/
+sudo mv writer /usr/local/bin/
 ```
 
 ### 问题 2：提示 "WECHAT_APPID is required"
@@ -235,7 +235,7 @@ sudo mv md2wechat /usr/local/bin/
 
 需要加 `--upload` 参数：
 ```bash
-md2wechat convert 文章.md --upload --draft
+writer convert 文章.md --upload --draft
 ```
 
 ---
@@ -246,10 +246,10 @@ md2wechat convert 文章.md --upload --draft
 
 ```bash
 # 第一步：预览效果
-md2wechat convert 产品发布.md --mode ai --theme autumn-warm --preview
+writer convert 产品发布.md --mode ai --theme autumn-warm --preview
 
 # 第二步：满意后，上传图片并发送到草稿箱
-md2wechat convert 产品发布.md --mode ai --theme autumn-warm --upload --draft
+writer convert 产品发布.md --mode ai --theme autumn-warm --upload --draft
 ```
 
 就这么简单！

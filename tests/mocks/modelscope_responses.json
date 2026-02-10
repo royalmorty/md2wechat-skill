@@ -1,0 +1,33 @@
+{
+  "create_task_success": {
+    "task_id": "test_task_123456"
+  },
+  "create_task_error": {
+    "code": "InvalidParameter",
+    "message": "Invalid prompt"
+  },
+  "poll_task_pending": {
+    "task_status": "PENDING"
+  },
+  "poll_task_running": {
+    "task_status": "RUNNING"
+  },
+  "poll_task_success": {
+    "task_status": "SUCCEED",
+    "output_images": [
+      "https://example.com/generated-image.png"
+    ]
+  },
+  "poll_task_failed": {
+    "task_status": "FAILED",
+    "error_message": "Generation failed"
+  },
+  "unauthorized": {
+    "code": "Unauthorized",
+    "message": "Invalid token"
+  },
+  "rate_limit": {
+    "code": "RateLimitExceeded",
+    "message": "Rate limit exceeded"
+  }
+}

@@ -1,6 +1,6 @@
 # 架构审查报告
 
-本文档从架构师角度对 md2wechat-skill 项目进行全面审查。
+本文档从架构师角度对 wechatwriter 项目进行全面审查。
 
 ## 目录
 
@@ -19,7 +19,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                      CLI (cmd/md2wechat)                │
+│                      CLI (cmd/writer)                │
 │  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐       │
 │  │ convert│  │ config │  │ upload │  │ draft  │       │
 │  └────┬───┘  └────┬───┘  └────┬───┘  └────┬───┘       │
@@ -308,8 +308,8 @@ export WECHAT_SECRET=$(echo "secret" | base64)
 
 ```gitignore
 # 配置文件
-md2wechat.yaml
-.md2wechat.yaml
+config.yaml
+.config.yaml
 
 # 日志文件
 *.log
@@ -394,7 +394,7 @@ func (c *CachedConverter) Convert(req *ConvertRequest) *ConvertResult {
 
 ### 结论
 
-md2wechat-skill 项目整体架构设计合理，代码质量良好：
+wechatwriter 项目整体架构设计合理，代码质量良好：
 
 1. **架构一致性**：与原始设计保持一致，分层清晰
 2. **功能完整性**：核心功能已实现，符合设计预期

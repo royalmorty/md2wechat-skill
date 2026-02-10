@@ -1,4 +1,4 @@
-# md2wechat
+# writer$
 
 <div align="center">
 
@@ -6,17 +6,17 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go)](https://golang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![GitHub Release](https://img.shields.io/badge/download-latest-green)](https://github.com/geekjourneyx/md2wechat-skill/releases)
+[![GitHub Release](https://img.shields.io/badge/download-latest-green)](https://github.com/royalrick/wechatwriter/app/releases)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-purple)](#-claude-code-集成)
-[![zread](https://img.shields.io/badge/Ask_Zread-_.svg?style=flat&color=00b0aa&labelColor=000000&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuOTYxNTYgMS42MDAxSDIuMjQxNTZDMS44ODgxIDEuNjAwMSAxLjYwMTU2IDEuODg2NjQgMS42MDE1NiAyLjI0MDFWNC45NjAxQzEuNjAxNTYgNS4zMTM1NiAxLjg4ODEgNS42MDAxIDIuMjQxNTYgNS42MDAxSDQuOTYxNTZDNS4zMTUwMiA1LjYwMDEgNS42MDE1NiA1LjMxMzU2IDUuNjAxNTYgNC45NjAxVjIuMjQwMUM1LjYwMTU2IDEuODg2NjQgNS4zMTUwMiAxLjYwMDEgNC45NjE1NiAxLjYwMDFaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00Ljk2MTU2IDEwLjM5OTlIMi4yNDE1NkMxLjg4ODEgMTAuMzk5OSAxLjYwMTU2IDEwLjY4NjQgMS42MDE1NiAxMS4wMzk5VjEzLjc1OTlDMS42MDE1NiAxNC4xMTM0IDEuODg4MSAxNC4zOTk5IDIuMjQxNTYgMTQuMzk5OUg0Ljk2MTU2QzUuMzE1MDIgMTQuMzk5OSA1LjYwMTU2IDE0LjExMzQgNS42MDE1NiAxMy43NTk5VjExLjAzOTlDNS42MDE1NiAxMC42ODY0IDUuMzE1MDIgMTAuMzk5OSA0Ljk2MTU2IDEwLjM5OTlaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik0xMy43NTg0IDEuNjAwMUgxMS4wMzg0QzEwLjY4NSAxLjYwMDEgMTAuMzk4NCAxLjg4NjY0IDEwLjM5ODQgMi4yNDAxVjQuOTYwMUMxMC4zOTg0IDUuMzEzNTYgMTAuNjg1IDUuNjAwMSAxMS4wMzg0IDUuNjAwMUgxMy43NTg0QzE0LjExMTkgNS42MDAxIDE0LjM5ODQgNS4zMTM1NiAxNC4zOTg0IDQuOTYwMVYyLjI0MDFDMTQuMzk4NCAxLjg4NjY0IDE0LjExMTkgMS42MDAxIDEzLjc1ODQgMS42MDAxWiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNNCAxMkwxMiA0TDQgMTJaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00IDEyTDEyIDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K&logoColor=ffffff)](https://zread.ai/geekjourneyx/md2wechat-skill)
+[![zread](https://img.shields.io/badge/Ask_Zread-_.svg?style=flat&color=00b0aa&labelColor=000000&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuOTYxNTYgMS42MDAxSDIuMjQxNTZDMS44ODgxIDEuNjAwMSAxLjYwMTU2IDEuODg2NjQgMS42MDE1NiAyLjI0MDFWNC45NjAxQzEuNjAxNTYgNS4zMTM1NiAxLjg4ODEgNS42MDAxIDIuMjQxNTYgNS42MDAxSDQuOTYxNTZDNS4zMTUwMiA1LjYwMDEgNS42MDE1NiA1LjMxMzU2IDUuNjAxNTYgNC45NjAxVjIuMjQwMUM1LjYwMTU2IDEuODg2NjQgNS4zMTUwMiAxLjYwMDEgNC45NjE1NiAxLjYwMDFaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00Ljk2MTU2IDEwLjM5OTlIMi4yNDE1NkMxLjg4ODEgMTAuMzk5OSAxLjYwMTU2IDEwLjY4NjQgMS42MDE1NiAxMS4wMzk5VjEzLjc1OTlDMS42MDE1NiAxNC4xMTM0IDEuODg4MSAxNC4zOTk5IDIuMjQxNTYgMTQuMzk5OUg0Ljk2MTU2QzUuMzE1MDIgMTQuMzk5OSA1LjYwMTU2IDE0LjExMzQgNS42MDE1NiAxMy43NTk5VjExLjAzOTlDNS42MDE1NiAxMC42ODY0IDUuMzE1MDIgMTAuMzk5OSA0Ljk2MTU2IDEwLjM5OTlaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik0xMy43NTg0IDEuNjAwMUgxMS4wMzg0QzEwLjY4NSAxLjYwMDEgMTAuMzk4NCAxLjg4NjY0IDEwLjM5ODQgMi4yNDAxVjQuOTYwMUMxMC4zOTg0IDUuMzEzNTYgMTAuNjg1IDUuNjAwMSAxMS4wMzg0IDUuNjAwMUgxMy43NTg0QzE0LjExMTkgNS42MDAxIDE0LjM5ODQgNS4zMTM1NiAxNC4zOTg0IDQuOTYwMVYyLjI0MDFDMTQuMzk4NCAxLjg4NjY0IDE0LjExMTkgMS42MDAxIDEzLjc1ODQgMS42MDAxWiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNNCAxMkwxMiA0TDQgMTJaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00IDEyTDEyIDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K&logoColor=ffffff)](https://zread.ai/royalrick/wechatwriter)
 
 ---
 
-> ### ⚠️ 重要提示：API 模式需要 md2wechat.cn API 服务
-> **本工具使用 md2wechat.cn API 服务，使用 API 模式前需要先获取 API Key**
+> ### ⚠️ 重要提示：API 模式需要 wechatwriter.cn API 服务
+> **本工具使用 wechatwriter.cn API 服务，使用 API 模式前需要先获取 API Key**
 >
-> - 📖 **API 文档**：https://www.md2wechat.cn/api-docs
-> - 📧 **联系获取**：通过 [官网](https://www.md2wechat.cn/api-docs) 联系获取 API Key
+> - 📖 **API 文档**：https://www.wechatwriter.cn/api-docs
+> - 📧 **联系获取**：通过 [官网](https://www.wechatwriter.cn/api-docs) 联系获取 API Key
 > - 💡 **AI 模式**：不需要 API Key，直接使用 Claude 即可
 
 ---
@@ -30,8 +30,8 @@
 在 Claude Code 中运行以下命令即可使用：
 
 ```bash
-/plugin marketplace add geekjourneyx/md2wechat-skill
-/plugin install md2wechat@geekjourneyx-md2wechat-skill
+/plugin marketplace add royalrick/wechatwriter
+/plugin install wechatwriter@royalrick-wechatwriter
 ```
 
 然后直接对话：**"请用秋日暖光主题将 article.md 转换为微信公众号格式"**
@@ -40,13 +40,13 @@
 
 ## ✨ 这是什么？
 
-**md2wechat** 是一个让你的微信公众号写作更高效的神器。
+**Writer for WeChat** 是一个让你的微信公众号写作更高效的神器。
 
 > 💡 **一句话理解**：用 Markdown 写文章 → 一键转换 → 自动发到微信草稿箱
 
 **适合谁用？**
 
-| 你是 | 痛点 | md2wechat 帮你 |
+| 你是 | 痛点 | writer 帮你 |
 |------|------|---------------|
 | 📝 内容创作者 | 微信编辑器太难用，排版花时间 | Markdown 写作，自动排版 |
 | 💼 产品经理 | 要发公告，但不会 HTML | 不用学代码，一行命令搞定 |
@@ -61,7 +61,7 @@
 flowchart LR
     A[用 Markdown 写文章] --> B{选择模式}
 
-    B -->|API 模式| C[调用 md2wechat.cn API]
+    B -->|API 模式| C[调用 wechatwriter.cn API]
     C --> D[获取 HTML]
 
     B -->|AI 模式 ⭐| E[Claude AI 生成 HTML]
@@ -153,15 +153,15 @@ flowchart LR
 
 ### 第一步：下载软件
 
-> 💡 **最新版本**：访问 [Releases 页面](https://github.com/geekjourneyx/md2wechat-skill/releases) 下载
+> 💡 **最新版本**：访问 [Releases 页面](https://github.com/royalrick/wechatwriter/app/releases) 下载
 
 | 你的系统 | 下载链接 | 安装位置 |
 |----------|----------|----------|
-| 🪟 **Windows** | [下载 .exe](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-windows-amd64.exe) | 任意文件夹（或 `C:\Windows\System32\`） |
-| 🍎 **Mac Intel 芯片** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
-| 🍎 **Mac Apple Silicon (M1/M2/M3/M4)** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
-| 🐧 **Linux (Intel/AMD)** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
-| 🐧 **Linux (ARM/树莓派)** | [下载](https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🪟 **Windows** | [下载 .exe](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-windows-amd64.exe) | 任意文件夹（或 `C:\Windows\System32\`） |
+| 🍎 **Mac Intel 芯片** | [下载](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-darwin-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🍎 **Mac Apple Silicon (M1/M2/M3/M4)** | [下载](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-darwin-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🐧 **Linux (Intel/AMD)** | [下载](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-amd64) | `/usr/local/bin/` 或 `~/.local/bin/` |
+| 🐧 **Linux (ARM/树莓派)** | [下载](https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-arm64) | `/usr/local/bin/` 或 `~/.local/bin/` |
 
 > 🔍 **如何确认 Mac 芯片类型？**
 > - 点击屏幕左上角 **苹果图标** → **关于本机**
@@ -174,10 +174,10 @@ flowchart LR
 <details>
 <summary><b>Windows 安装方法</b></summary>
 
-1. 下载 `md2wechat-windows-amd64.exe`
-2. 重命名为 `md2wechat.exe`（可选）
+1. 下载 `writer-windows-amd64.exe`
+2. 重命名为 `writer.exe`（可选）
 3. 放到任意文件夹，或复制到 `C:\Windows\System32\`（全局可用）
-4. 打开 CMD 或 PowerShell，输入 `md2wechat --help` 测试
+4. 打开 CMD 或 PowerShell，输入 `writer --help` 测试
 
 </details>
 
@@ -189,31 +189,31 @@ flowchart LR
 **Apple Silicon (M1/M2/M3/M4)：**
 ```bash
 # 下载并移动到系统目录
-curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64
-chmod +x md2wechat
-sudo mv md2wechat /usr/local/bin/
+curl -Lo writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-darwin-arm64
+chmod +x writer$
+sudo mv writer /usr/local/bin/
 
 # 测试
-md2wechat --help
+writer --help
 ```
 
 **Intel 芯片：**
 ```bash
 # 下载并移动到系统目录
-curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-amd64
-chmod +x md2wechat
-sudo mv md2wechat /usr/local/bin/
+curl -Lo writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-darwin-amd64
+chmod +x writer$
+sudo mv writer /usr/local/bin/
 
 # 测试
-md2wechat --help
+writer --help
 ```
 
 **用户目录安装（无需 sudo）：**
 ```bash
 # Apple Silicon
 mkdir -p ~/.local/bin
-curl -Lo ~/.local/bin/md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-darwin-arm64
-chmod +x ~/.local/bin/md2wechat
+curl -Lo ~/.local/bin/writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-darwin-arm64
+chmod +x ~/.local/bin/writer
 
 # Intel 芯片（将上面 URL 中的 arm64 改为 amd64）
 
@@ -222,7 +222,7 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 
 # 测试
-md2wechat --help
+writer --help
 ```
 
 </details>
@@ -235,38 +235,38 @@ md2wechat --help
 **Intel/AMD (x86_64)：**
 ```bash
 # 下载并移动到系统目录
-curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64
-chmod +x md2wechat
-sudo mv md2wechat /usr/local/bin/
+curl -Lo writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-amd64
+chmod +x writer$
+sudo mv writer /usr/local/bin/
 
 # 测试
-md2wechat --help
+writer --help
 ```
 
 **ARM/树莓派 (aarch64)：**
 ```bash
 # 下载并移动到系统目录
-curl -Lo md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-arm64
-chmod +x md2wechat
-sudo mv md2wechat /usr/local/bin/
+curl -Lo writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-arm64
+chmod +x writer$
+sudo mv writer /usr/local/bin/
 
 # 测试
-md2wechat --help
+writer --help
 ```
 
 **用户目录安装（无需 sudo）：**
 ```bash
 mkdir -p ~/.local/bin
 # Intel/AMD 用 amd64，ARM 用 arm64
-curl -Lo ~/.local/bin/md2wechat https://github.com/geekjourneyx/md2wechat-skill/releases/latest/download/md2wechat-linux-amd64
-chmod +x ~/.local/bin/md2wechat
+curl -Lo ~/.local/bin/writer https://github.com/royalrick/wechatwriter/app/releases/latest/download/writer-linux-amd64
+chmod +x ~/.local/bin/writer
 
 # 添加到 PATH（如果还没有）
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc  # 或 ~/.zshrc
 source ~/.bashrc
 
 # 测试
-md2wechat --help
+writer --help
 ```
 
 </details>
@@ -276,7 +276,7 @@ md2wechat --help
 ### 第二步：配置微信（只需一次）
 
 ```bash
-md2wechat config init
+writer config init
 ```
 
 用记事本打开生成的配置文件（会显示路径），填入两个信息：
@@ -292,10 +292,10 @@ md2wechat config init
 # 1. 用 Markdown 写好文章（假设文件叫 article.md）
 
 # 2. 预览效果
-md2wechat convert article.md --preview
+writer convert article.md --preview
 
 # 3. 发送到微信草稿箱
-md2wechat convert article.md --draft --cover cover.jpg
+writer convert article.md --draft --cover cover.jpg
 ```
 
 > 💡 **小贴士**：第一次使用时，命令会自动引导你完成配置。
@@ -308,35 +308,35 @@ md2wechat convert article.md --draft --cover cover.jpg
 
 ```bash
 # 预览转换效果（不发送）
-md2wechat convert article.md --preview
+writer convert article.md --preview
 
 # 转换并保存为 HTML 文件
-md2wechat convert article.md -o output.html
+writer convert article.md -o output.html
 
 # 使用 AI 模式生成精美排版
-md2wechat convert article.md --mode ai --theme autumn-warm --preview
+writer convert article.md --mode ai --theme autumn-warm --preview
 ```
 
 ### 风格写作 🆕
 
 ```bash
 # 查看所有可用写作风格
-md2wechat write --list
+writer write --list
 
 # 用 Dan Koe 风格写文章（交互模式）
-md2wechat write
+writer write
 
 # 用指定风格写文章，从观点生成
-md2wechat write --style dan-koe
+writer write --style dan-koe
 
 # 润色现有文章
-md2wechat write --style dan-koe --input-type fragment article.md
+writer write --style dan-koe --input-type fragment article.md
 
 # 生成匹配的封面提示词
-md2wechat write --style dan-koe --cover-only
+writer write --style dan-koe --cover-only
 
 # 同时生成文章和封面
-md2wechat write --style dan-koe --cover
+writer write --style dan-koe --cover
 ```
 
 **写作风格说明：**
@@ -507,26 +507,26 @@ AI 生成的文章往往有明显的"AI 味"——公式化的表达、重复的
 
 ```bash
 # 独立使用：去除文章的 AI 痕迹
-md2wechat humanize article.md
+writer humanize article.md
 
 # 指定强度
-md2wechat humanize article.md --intensity aggressive
+writer humanize article.md --intensity aggressive
 
 # 显示修改对比和质量评分
-md2wechat humanize article.md --show-changes
+writer humanize article.md --show-changes
 
 # 输出到文件
-md2wechat humanize article.md -o output.md
+writer humanize article.md -o output.md
 ```
 
 **与写作风格组合使用：**
 
 ```bash
 # 写作 + 去痕：生成文章后自动去除 AI 痕迹
-md2wechat write --style dan-koe --humanize
+writer write --style dan-koe --humanize
 
 # 指定去痕强度
-md2wechat write --style dan-koe --humanize --humanize-intensity aggressive
+writer write --style dan-koe --humanize --humanize-intensity aggressive
 ```
 
 > 💡 **风格优先原则**：当与写作风格组合时，会保留风格的核心特征（如 Dan Koe 的破折号），只去除无意的 AI 痕迹。
@@ -614,7 +614,7 @@ flowchart LR
 
 ```bash
 # 一步到位：转换 + 上传图片 + 发送草稿
-md2wechat convert article.md --draft --cover cover.jpg
+writer convert article.md --draft --cover cover.jpg
 
 # 流程说明：
 # 1. 将 Markdown 转换为微信格式 HTML
@@ -645,16 +645,16 @@ md2wechat convert article.md --draft --cover cover.jpg
 
 ```bash
 # 上传单张图片到微信素材库
-md2wechat upload_image photo.jpg
+writer upload_image photo.jpg
 
 # 下载网络图片并上传
-md2wechat download_and_upload https://example.com/image.jpg
+writer download_and_upload https://example.com/image.jpg
 
 # AI 生成图片并上传（需要配置 IMAGE_API_KEY）
-md2wechat generate_image "A cute cat sitting on a windowsill"
+writer generate_image "A cute cat sitting on a windowsill"
 
 # 生成 16:9 比例的封面图（推荐，适配公众号封面）
-md2wechat generate_image --size 2560x1440 "prompt"
+writer generate_image --size 2560x1440 "prompt"
 ```
 
 > 💡 **公众号封面图建议**：使用 16:9 横向比例（2560x1440）作为文章封面，在微信 feed 流和文章列表中显示效果更好。方形图片（2048x2048）在预览时会被裁剪。
@@ -731,7 +731,7 @@ api:
 │                                                             │
 │   1. 你用 Markdown 写文章                                    │
 │              ↓                                               │
-│   2. md2wechat 提取文章结构                                  │
+│   2. writer 提取文章结构                                  │
 │              ↓                                               │
 │   3. 构建专业的排版提示词 (Prompt)                           │
 │              ↓                                               │
@@ -758,7 +758,7 @@ api:
 
 ```bash
 # 在 Claude Code 中直接运行
-md2wechat convert article.md --mode ai --theme autumn-warm
+writer convert article.md --mode ai --theme autumn-warm
 ```
 
 ---
@@ -768,7 +768,7 @@ md2wechat convert article.md --mode ai --theme autumn-warm
 ### 配置文件位置
 
 ```
-~/.config/md2wechat/config.yaml    # 全局配置（推荐）
+~/.config/wechatwriter/config.yaml    # 全局配置（推荐）
 ```
 
 ### 配置项说明
@@ -798,9 +798,9 @@ image:
 ## 📁 项目结构
 
 ```
-md2wechat-skill/
+wechatwriter/
 ├── cmd/                    # 命令行工具
-│   └── md2wechat/         # 主程序
+│   └── writer/            # 主程序
 ├── internal/              # 核心功能模块
 │   ├── converter/        # 转换器（API/AI）
 │   ├── draft/            # 草稿服务
@@ -828,14 +828,14 @@ md2wechat-skill/
 ### 方式一：Go 工具链
 
 ```bash
-go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest
+go install github.com/royalrick/wechatwriter/app/cmd/writer@latest
 ```
 
 ### 方式二：一键安装脚本
 
 **Mac/Linux：**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/royalrick/wechatwriter/main/scripts/install.sh | bash
 ```
 
 > 💡 脚本会自动检测你的系统架构并下载对应版本
@@ -843,14 +843,14 @@ curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/s
 **Windows PowerShell：**
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/scripts/install.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/royalrick/wechatwriter/main/scripts/install.ps1'))
 ```
 
 ### 方式三：从源码编译
 
 ```bash
-git clone https://github.com/geekjourneyx/md2wechat-skill.git
-cd md2wechat-skill
+git clone https://github.com/royalrick/wechatwriter.git
+cd wechatwriter
 make build
 ```
 
@@ -858,7 +858,7 @@ make build
 
 ## 🤖 Claude Code 集成
 
-md2wechat 提供了 **Claude Code Skill**，让你在 Claude Code 中直接使用自然语言转换文章。
+writer 提供了 **Claude Code Skill**，让你在 Claude Code 中直接使用自然语言转换文章。
 
 ### 安装方式
 
@@ -868,10 +868,10 @@ md2wechat 提供了 **Claude Code Skill**，让你在 Claude Code 中直接使�
 
 ```bash
 # 添加插件市场
-/plugin marketplace add geekjourneyx/md2wechat-skill
+/plugin marketplace add royalrick/wechatwriter
 
 # 安装插件
-/plugin install md2wechat@geekjourneyx-md2wechat-skill
+/plugin install wechatwriter@royalrick-wechatwriter
 ```
 
 安装后，直接在 Claude Code 中对话即可使用：
@@ -885,45 +885,46 @@ md2wechat 提供了 **Claude Code Skill**，让你在 Claude Code 中直接使�
 克隆项目后，Skill 自动可用：
 
 ```bash
-git clone https://github.com/geekjourneyx/md2wechat-skill.git
-cd md2wechat-skill
+git clone https://github.com/royalrick/wechatwriter.git
+cd wechatwriter
 # 在 Claude Code 中直接使用
 ```
 
 #### 方式三：全局安装
 
-将 Skill 复制到全局目录：
+将专业 Skill 复制到全局目录：
 
 ```bash
-# 复制到全局技能目录
-cp -r skill/md2wechat ~/.claude/skills/
+# 复制所需的专业技能目录
+cp -r skills/content-writing ~/.claude/skills/
+cp -r skills/visual-design ~/.claude/skills/
+# 根据需要复制其他专业技能...
 ```
 
 #### 方式四：创建符号链接
 
 ```bash
-ln -s /path/to/md2wechat-skill/skill/md2wechat ~/.claude/skills/md2wechat
+ln -s /path/to/wechatwriter/skills/content-writing ~/.claude/skills/content-writing
+ln -s /path/to/wechatwriter/skills/visual-design ~/.claude/skills/visual-design
+# 根据需要链接其他专业技能...
 ```
 
 ### 项目结构
 
 ```
-md2wechat-skill/
+wechatwriter/
 ├── .claude-plugin/        # 插件清单
 │   └── plugin.json
-├── skill/                 # Claude Code Skill
-│   └── md2wechat/
-│       ├── SKILL.md       # 技能定义
-│       ├── references/    # 参考文档
-│       │   ├── themes.md      # 主题指南
-│       │   ├── html-guide.md  # HTML 规范
-│       │   ├── image-syntax.md # 图片语法
-│       │   └── wechat-api.md  # API 参考
-│       └── scripts/       # 执行脚本
-└── themes/                # AI 主题配置
-    ├── autumn-warm.yaml
-    ├── spring-fresh.yaml
-    └── ocean-calm.yaml
+├── skills/                # Claude Code 专业技能集合
+│   ├── topic-research/    # 选题研究专业skill
+│   ├── content-writing/   # 内容创作专业skill
+│   ├── visual-design/     # 视觉设计专业skill
+│   ├── seo-optimization/  # SEO优化专业skill
+│   ├── publishing-strategy/ # 发布策略专业skill
+│   └── content-analysis/ # 内容分析专业skill
+├── writers/               # 写作风格配置
+├── themes/                # AI 主题配置
+└── docs/                  # 文档目录
 ```
 
 ---
@@ -937,37 +938,37 @@ md2wechat-skill/
 vim my-tech-post.md
 
 # 使用简洁的 API 模式转换
-md2wechat convert my-tech-post.md --preview
+writer convert my-tech-post.md --preview
 
 # 满意后发送草稿
-md2wechat convert my-tech-post.md --draft --cover cover.jpg
+writer convert my-tech-post.md --draft --cover cover.jpg
 ```
 
 ### 示例 2：产品经理发公告
 
 ```bash
 # AI 生成产品公告内容，然后
-md2wechat convert announcement.md --mode ai --theme ocean-calm --draft --cover product-logo.png
+writer convert announcement.md --mode ai --theme ocean-calm --draft --cover product-logo.png
 ```
 
 ### 示例 3：生活方式博主
 
 ```bash
 # 使用春日清新主题
-md2wechat travel-diary.md --mode ai --theme spring-fresh --preview
+writer travel-diary.md --mode ai --theme spring-fresh --preview
 ```
 
 ### 示例 4：写作小白用观点生成文章 🆕
 
 ```bash
 # 交互模式：输入观点，AI 生成文章
-md2wechat write
+writer write
 
 # 指定风格生成
-md2wechat write --style dan-koe
+writer write --style dan-koe
 
 # 生成封面提示词
-md2wechat write --style dan-koe --cover-only
+writer write --style dan-koe --cover-only
 ```
 
 ---
@@ -1028,7 +1029,7 @@ md2wechat write --style dan-koe --cover-only
 - 也可以使用一键安装脚本，会自动检测系统架构
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/royalrick/wechatwriter/main/scripts/install.sh | bash
 ```
 </details>
 
@@ -1039,13 +1040,13 @@ curl -fsSL https://raw.githubusercontent.com/geekjourneyx/md2wechat-skill/main/s
 
 ```bash
 # 查看所有可用风格
-md2wechat write --list
+writer write --list
 
 # 交互式写作
-md2wechat write
+writer write
 
 # 指定风格写作
-md2wechat write --style dan-koe
+writer write --style dan-koe
 ```
 
 只需输入你的观点或想法，AI 会自动生成符合该风格的文章。
@@ -1086,20 +1087,20 @@ vim writers/my-style.yaml
 
 ```bash
 # 基本用法
-md2wechat humanize article.md
+writer humanize article.md
 
 # 指定强度（gentle/medium/aggressive）
-md2wechat humanize article.md --intensity aggressive
+writer humanize article.md --intensity aggressive
 
 # 显示修改对比和质量评分
-md2wechat humanize article.md --show-changes
+writer humanize article.md --show-changes
 ```
 
 **与写作风格组合使用：**
 
 ```bash
 # 写作 + 去痕
-md2wechat write --style dan-koe --humanize
+writer write --style dan-koe --humanize
 ```
 
 > 💡 **致谢**：AI 去痕功能基于 [Humanizer-zh](https://github.com/op7418/Humanizer-zh) 项目。
@@ -1130,7 +1131,7 @@ md2wechat write --style dan-koe --humanize
 
 ```bash
 # 风格优先：保留 Dan Koe 风格，去除 AI 痕迹
-md2wechat write --style dan-koe --humanize
+writer write --style dan-koe --humanize
 ```
 </details>
 
@@ -1197,7 +1198,7 @@ md2wechat write --style dan-koe --humanize
 
 3. **或在配置文件中设置**
    ```yaml
-   # ~/.config/md2wechat/config.yaml
+   # ~/.config/wechatwriter/config.yaml
    api:
      image_provider: modelscope
      image_key: ms-your-token-here
@@ -1208,7 +1209,7 @@ md2wechat write --style dan-koe --humanize
 
 4. **测试**
    ```bash
-   md2wechat generate_image "A golden cat"
+   writer generate_image "A golden cat"
    ```
 </details>
 
@@ -1221,10 +1222,10 @@ md2wechat write --style dan-koe --humanize
 
 ```bash
 # 管道输入
-echo "你的想法或内容" | md2wechat write --style dan-koe
+echo "你的想法或内容" | writer write --style dan-koe
 
 # heredoc 输入（适合多行内容）
-md2wechat write --style dan-koe --title "文章标题" <<EOF
+writer write --style dan-koe --title "文章标题" <<EOF
 第一段内容
 第二段内容
 更多观点...
@@ -1248,7 +1249,7 @@ EOF
 | [图片服务配置](docs/IMAGE_PROVISIONERS.md) 🆕 | AI 图片生成服务完整配置指南 |
 | [写作功能指南](writers/README.md) | 如何使用和自定义写作风格 |
 | [写作功能问答](docs/WRITING_FAQ.md) | 写作小白完整指南 |
-| [AI 去痕指南](skill/md2wechat/references/humanizer.md) | AI 写作去痕完整指南 |
+| [AI 去痕指南](app/humanizer/README.md) | AI 写作去痕完整指南 |
 | [常见问题](docs/FAQ.md) | 20+ 常见问题解答 |
 | [故障排查](docs/TROUBLESHOOTING.md) | 遇到问题看这里 |
 
@@ -1296,7 +1297,7 @@ EOF
 
 **让公众号写作更简单** ⭐
 
-[主页](https://github.com/geekjourneyx/md2wechat-skill) • [文档](docs) • [反馈](https://github.com/geekjourneyx/md2wechat-skill/issues)
+[主页](https://github.com/royalrick/wechatwriter) • [文档](docs) • [反馈](https://github.com/royalrick/wechatwriter/app/issues)
 
 Made with ❤️ by [geekjourneyx](https://geekjourney.dev)
 

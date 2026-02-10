@@ -1,6 +1,6 @@
 # 图片生成服务配置
 
-md2wechat 支持多种图片生成服务，可以在 Markdown 中使用 AI 生成图片。
+writer 支持多种图片生成服务，可以在 Markdown 中使用 AI 生成图片。
 
 ## 快速开始
 
@@ -12,7 +12,7 @@ md2wechat 支持多种图片生成服务，可以在 Markdown 中使用 AI 生�
 
 ## 配置方式
 
-在配置文件 `~/.config/md2wechat/config.yaml` 中配置图片生成服务：
+在配置文件 `~/.config/wechatwriter/config.yaml` 中配置图片生成服务：
 
 ```yaml
 api:
@@ -129,10 +129,10 @@ api:
 
 ```bash
 # 转换文章（会自动生成图片并上传到微信）
-md2wechat convert article.md --draft
+writer convert article.md --draft
 
 # 只预览（不上传）
-md2wechat convert article.md --preview
+writer convert article.md --preview
 ```
 
 ---
@@ -190,7 +190,7 @@ md2wechat convert article.md --preview
 
 ```bash
 # 设置日志级别为 debug
-MD2WECHAT_LOG_LEVEL=debug md2wechat convert article.md --preview
+WECHATWRITER_LOG_LEVEL=debug writer convert article.md --preview
 ```
 
 ---

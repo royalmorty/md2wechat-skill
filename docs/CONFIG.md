@@ -1,6 +1,6 @@
 # 配置指南
 
-本文档详细说明 md2wechat 的各种配置方式。
+本文档详细说明 writer 的各种配置方式。
 
 ## 目录
 
@@ -18,10 +18,10 @@
 最简单的配置方式是使用交互式命令：
 
 ```bash
-md2wechat config init
+writer config init
 ```
 
-这会创建一个 `md2wechat.yaml` 文件，编辑它填入你的凭证：
+这会创建一个 `config.yaml` 文件，编辑它填入你的凭证：
 
 ```yaml
 wechat:
@@ -29,7 +29,7 @@ wechat:
   secret: "your_secret_here"
 
 api:
-  md2wechat_key: ""           # 可选
+  wechatwriter_key: ""           # 可选
   convert_mode: "api"
   default_theme: "default"
 
@@ -66,7 +66,7 @@ image:
 
 ## 配置方式
 
-md2wechat 支持三种配置方式，按优先级从高到低：
+writer 支持三种配置方式，按优先级从高到低：
 
 1. **命令行参数** - 临时覆盖
 2. **环境变量** - 机器级别配置
@@ -77,11 +77,11 @@ md2wechat 支持三种配置方式，按优先级从高到低：
 程序会在以下位置查找配置文件：
 
 ```
-./md2wechat.yaml          # 当前目录（优先级最高）
-./md2wechat.yml
-./md2wechat.json
-~/.md2wechat.yaml         # 用户主目录
-~/.config/md2wechat/config.yaml
+./config.yaml          # 当前目录（优先级最高）
+./config.yml
+./config.json
+~/.config.yaml         # 用户主目录
+~/.config/wechatwriter/config.yaml
 ```
 
 ---
@@ -98,7 +98,7 @@ wechat:
 
 # API 配置
 api:
-  md2wechat_key: "your_md2wechat_key"  # 可选：md2wechat.cn API Key
+  wechatwriter_key: "your_wechatwriter_key"  # 可选：wechatwriter.cn API Key
   image_key: ""                         # 可选：图片生成 API Key
   image_base_url: "https://api.openai.com/v1"  # 图片 API 地址
   convert_mode: "api"                   # 转换模式：api 或 ai
@@ -125,7 +125,6 @@ image:
 
 | 配置项 | 必填 | 说明 | 默认值 |
 |--------|------|------|--------|
-| `md2wechat_key` | 否* | md2wechat.cn API Key | - |
 | `image_key` | 否** | 图片生成 API Key | - |
 | `image_base_url` | 否 | 图片 API 地址 | `https://api.openai.com/v1` |
 | `convert_mode` | 否 | 转换模式 | `api` |
@@ -153,7 +152,7 @@ image:
 |----------|-----------|------|
 | `WECHAT_APPID` | `wechat.appid` | 微信 AppID |
 | `WECHAT_SECRET` | `wechat.secret` | 微信 Secret |
-| `MD2WECHAT_API_KEY` | `api.md2wechat_key` | md2wechat API Key |
+| `WECHATWRITER_API_KEY` | `api.wechatwriter_key` | writer API Key |
 | `IMAGE_API_KEY` | `api.image_key` | 图片生成 API Key |
 | `IMAGE_API_BASE` | `api.image_base_url` | 图片 API 地址 |
 | `CONVERT_MODE` | `api.convert_mode` | 转换模式 |
@@ -203,7 +202,7 @@ $env:WECHAT_SECRET="your_secret"
 
 假设有以下配置：
 
-1. **配置文件** (`md2wechat.yaml`)：
+1. **配置文件** (`config.yaml`)：
    ```yaml
    api:
      default_theme: "default"
@@ -216,7 +215,7 @@ $env:WECHAT_SECRET="your_secret"
 
 3. **命令行参数**：
    ```bash
-   md2wechat convert article.md --theme ocean-calm
+   writer convert article.md --theme ocean-calm
    ```
 
 结果：使用 `ocean-calm` 主题（命令行参数优先级最高）
@@ -228,7 +227,7 @@ $env:WECHAT_SECRET="your_secret"
 ### 查看当前配置
 
 ```bash
-md2wechat config show
+writer config show
 ```
 
 输出示例：
@@ -247,23 +246,23 @@ md2wechat config show
 ### 查看完整配置（包含密钥）
 
 ```bash
-md2wechat config show --show-secret
+writer config show --show-secret
 ```
 
 ### 验证配置
 
 ```bash
-md2wechat config validate
+writer config validate
 ```
 
 ### 初始化配置文件
 
 ```bash
 # 在当前目录创建
-md2wechat config init
+writer config init
 
 # 指定路径
-md2wechat config init ~/.config/md2wechat/config.yaml
+writer config init ~/.config/wechatwriter/config.yaml
 ```
 
 ---
@@ -274,8 +273,8 @@ md2wechat config init ~/.config/md2wechat/config.yaml
 
    ```bash
    # 添加到 .gitignore
-   echo "md2wechat.yaml" >> .gitignore
-   echo ".md2wechat.yaml" >> .gitignore
+   echo "config.yaml" >> .gitignore
+   echo ".config.yaml" >> .gitignore
    ```
 
 2. **使用环境变量存储敏感信息**
@@ -287,7 +286,7 @@ md2wechat config init ~/.config/md2wechat/config.yaml
 3. **限制配置文件权限**
 
    ```bash
-   chmod 600 md2wechat.yaml
+   chmod 600 config.yaml
    ```
 
 ---

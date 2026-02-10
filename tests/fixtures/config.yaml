@@ -1,0 +1,35 @@
+wechat:
+  accounts:
+    - id: "test-account-1"
+      name: "测试账号1"
+      appid: "wx1234567890abcdef"
+      secret: "test_secret_1234567890abcdef"
+      keywords:
+        - "测试"
+        - "demo"
+      default_style: "dan-koe"
+    - id: "test-account-2"
+      name: "测试账号2"
+      appid: "wx0987654321fedcba"
+      secret: "test_secret_0987654321fedcba"
+      keywords:
+        - "生产"
+        - "prod"
+      default_style: "casual-science"
+  default: "test-account-1"
+
+api:
+  wechat_writer_key: "test_wechat_writer_key"
+  image_key: "test_image_key"
+  image_base_url: "https://api.openai.com/v1"
+  image_provider: "openai"
+  image_model: "dall-e-3"
+  image_size: "1024x1024"
+  convert_mode: "ai"
+  default_theme: "default"
+  http_timeout: 30
+
+image:
+  compress: true
+  max_width: 1920
+  max_size_mb: 5

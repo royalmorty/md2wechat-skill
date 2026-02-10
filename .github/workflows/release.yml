@@ -33,23 +33,23 @@ jobs:
           mkdir -p bin
 
           echo "Building for Linux amd64..."
-          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/md2wechat-linux-amd64 ./cmd/md2wechat
+          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/writer-linux-amd64 ./cmd/writer
           echo "✓ Linux amd64"
 
           echo "Building for Linux arm64..."
-          GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o bin/md2wechat-linux-arm64 ./cmd/md2wechat
+          GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o bin/writer-linux-arm64 ./cmd/writer
           echo "✓ Linux arm64"
 
           echo "Building for macOS amd64..."
-          GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o bin/md2wechat-darwin-amd64 ./cmd/md2wechat
+          GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o bin/writer-darwin-amd64 ./cmd/writer
           echo "✓ macOS amd64"
 
           echo "Building for macOS arm64..."
-          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o bin/md2wechat-darwin-arm64 ./cmd/md2wechat
+          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o bin/writer-darwin-arm64 ./cmd/writer
           echo "✓ macOS arm64"
 
           echo "Building for Windows amd64..."
-          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o bin/md2wechat-windows-amd64.exe ./cmd/md2wechat
+          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o bin/writer-windows-amd64.exe ./cmd/writer
           echo "✓ Windows amd64"
 
           chmod +x bin/*-linux* bin/*-darwin* 2>/dev/null || true
@@ -66,11 +66,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            bin/md2wechat-linux-amd64
-            bin/md2wechat-linux-arm64
-            bin/md2wechat-darwin-amd64
-            bin/md2wechat-darwin-arm64
-            bin/md2wechat-windows-amd64.exe
+            bin/writer-linux-amd64
+            bin/writer-linux-arm64
+            bin/writer-darwin-amd64
+            bin/writer-darwin-arm64
+            bin/writer-windows-amd64.exe
             bin/checksums.txt
           draft: false
           prerelease: false

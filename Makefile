@@ -1,50 +1,50 @@
-# md2wechat Makefile
-# 适用于开发者和高级用户
+# Writer CLI Makefile
+# 微信公众号写作工具统一构建
 
 .PHONY: all build clean test install help lint fmt vet release sync
 
 # 默认目标
 all: build
 
-# 构建所有平台的二进制文件（发布到 bin/ 目录）
+# 构建所有平台的二进制文件（发布到 scripts/ 目录）
 release:
-	@echo "🔨 构建 md2wechat 所有平台版本..."
+	@echo "🔨 构建 wechatwriter 所有平台版本..."
 	@echo ""
 	@echo "📦 Building for Linux amd64..."
-	@GOOS=linux GOARCH=amd64 go build -o bin/md2wechat-linux-amd64 ./cmd/md2wechat
+	@GOOS=linux GOARCH=amd64 go build -o scripts/wechatwriter-linux-amd64 ./app
 	@echo "✓ Linux amd64"
 	@echo "📦 Building for Linux arm64..."
-	@GOOS=linux GOARCH=arm64 go build -o bin/md2wechat-linux-arm64 ./cmd/md2wechat
+	@GOOS=linux GOARCH=arm64 go build -o scripts/wechatwriter-linux-arm64 ./app
 	@echo "✓ Linux arm64"
 	@echo "📦 Building for macOS amd64 (Intel)..."
-	@GOOS=darwin GOARCH=amd64 go build -o bin/md2wechat-darwin-amd64 ./cmd/md2wechat
+	@GOOS=darwin GOARCH=amd64 go build -o scripts/wechatwriter-darwin-amd64 ./app
 	@echo "✓ macOS amd64"
 	@echo "📦 Building for macOS arm64 (Apple Silicon)..."
-	@GOOS=darwin GOARCH=arm64 go build -o bin/md2wechat-darwin-arm64 ./cmd/md2wechat
+	@GOOS=darwin GOARCH=arm64 go build -o scripts/wechatwriter-darwin-arm64 ./app
 	@echo "✓ macOS arm64"
 	@echo "📦 Building for Windows amd64..."
-	@GOOS=windows GOARCH=amd64 go build -o bin/md2wechat-windows-amd64.exe ./cmd/md2wechat
+	@GOOS=windows GOARCH=amd64 go build -o scripts/wechatwriter-windows-amd64.exe ./app
 	@echo "✓ Windows amd64"
 	@echo ""
-	@chmod +x bin/*-linux* bin/*-darwin* 2>/dev/null || true
-	@echo "✅ 构建完成！二进制文件在 bin/ 目录"
+	@chmod +x scripts/*-linux* scripts/*-darwin* 2>/dev/null || true
+	@echo "✅ 构建完成！二进制文件在 scripts/ 目录"
 	@echo ""
-	@ls -lh bin/
+	@ls -lh scripts/
 
 # 构建当前平台
 build:
 	@echo "🔨 构建当前平台..."
-	@go build -o md2wechat ./cmd/md2wechat
-	@echo "✅ 构建完成: ./md2wechat"
+	@go build -o scripts/wechatwriter ./app/*.go
+	@echo "✅ 构建完成: ./scripts/wechatwriter"
 
 # 快速构建（仅当前平台，用于开发）
 fast:
-	@go build -o md2wechat ./cmd/md2wechat
+	@go build -o wechatwriter ./app
 
 # 清理
 clean:
 	@echo "🧹 清理..."
-	@rm -f md2wechat
+	@rm -f scripts/wechatwriter
 	@rm -rf dist/ release/
 	@rm -f *.log
 
@@ -72,7 +72,7 @@ vet:
 # 安装到 GOPATH/bin
 install:
 	@echo "📦 安装到 $(GOPATH)/bin..."
-	@go install ./cmd/md2wechat
+	@go install ./app
 
 # 下载依赖
 deps:
@@ -87,7 +87,7 @@ sync:
 
 # 帮助
 help:
-	@echo "md2wechat Makefile 命令:"
+	@echo "Writer CLI Makefile 命令:"
 	@echo ""
 	@echo "开发命令:"
 	@echo "  make build       - 构建当前平台二进制"
@@ -108,4 +108,4 @@ help:
 	@echo "  make sync        - 同步 Skill 目录到插件目录"
 	@echo ""
 	@echo "用户快速安装:"
-	@echo "  go install github.com/geekjourneyx/md2wechat-skill/cmd/md2wechat@latest"
+	@echo "  go install github.com/royalrick/wechatwriter/app/cmd/writer@latest"

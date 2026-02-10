@@ -1,6 +1,6 @@
 # 使用教程
 
-本文档详细说明 md2wechat 的各种使用方式。
+本文档详细说明 writer 的各种使用方式。
 
 ## 目录
 
@@ -21,8 +21,8 @@
 在 Claude Code 中运行：
 
 ```bash
-/plugin marketplace add geekjourneyx/md2wechat-skill
-/plugin install md2wechat@geekjourneyx-md2wechat-skill
+/plugin marketplace add royalrick/wechatwriter
+/plugin install wechatwriter@royalrick-wechatwriter
 ```
 
 ### 使用方式
@@ -38,7 +38,7 @@
 ```
 
 Claude 会自动：
-1. 调用 md2wechat 转换 Markdown
+1. 调用 writer 转换 Markdown
 2. 应用你选择的主题
 3. 上传图片到微信
 4. 创建草稿或显示预览
@@ -51,23 +51,23 @@ Claude 会自动：
 
 ```bash
 # 预览转换结果（不上传图片）
-md2wechat convert article.md --preview
+writer convert article.md --preview
 ```
 
 ### 常用命令组合
 
 ```bash
 # 1. 预览模式 - 快速查看效果
-md2wechat convert article.md --preview
+writer convert article.md --preview
 
 # 2. 保存到文件
-md2wechat convert article.md -o output.html
+writer convert article.md -o output.html
 
 # 3. 上传图片并输出 HTML
-md2wechat convert article.md --upload -o output.html
+writer convert article.md --upload -o output.html
 
 # 4. 完整流程 - 上传图片 + 创建草稿
-md2wechat convert article.md --upload --draft
+writer convert article.md --upload --draft
 ```
 
 ---
@@ -76,10 +76,10 @@ md2wechat convert article.md --upload --draft
 
 ### API 模式（推荐新手）
 
-使用 md2wechat.cn API 进行转换，稳定可靠。
+使用 wechatwriter.cn API 进行转换，稳定可靠。
 
 ```bash
-md2wechat convert article.md --mode api --api-key "your_key"
+writer convert article.md --mode ai --api-key "your_key"
 ```
 
 **特点**：
@@ -100,7 +100,7 @@ md2wechat convert article.md --mode api --api-key "your_key"
 使用 AI 生成 HTML，更加灵活。
 
 ```bash
-md2wechat convert article.md --mode ai --theme autumn-warm
+writer convert article.md --mode ai --theme autumn-warm
 ```
 
 **特点**：
@@ -147,27 +147,27 @@ md2wechat convert article.md --mode ai --theme autumn-warm
 
 ```bash
 # 自动上传所有图片
-md2wechat convert article.md --upload
+writer convert article.md --upload
 
 # 上传并替换 HTML 中的图片链接
-md2wechat convert article.md --upload -o output.html
+writer convert article.md --upload -o output.html
 ```
 
 ### 手动上传单个图片
 
 ```bash
 # 上传本地图片
-md2wechat upload_image ./photo.jpg
+writer upload_image ./photo.jpg
 
 # 下载并上传在线图片
-md2wechat download_and_upload https://example.com/image.jpg
+writer download_and_upload https://example.com/image.jpg
 ```
 
 ### AI 生成图片
 
 ```bash
 # 生成图片并上传
-md2wechat generate_image "A beautiful sunset over mountains"
+writer generate_image "A beautiful sunset over mountains"
 ```
 
 输出示例：
@@ -192,7 +192,7 @@ md2wechat generate_image "A beautiful sunset over mountains"
 配置压缩参数：
 
 ```yaml
-# md2wechat.yaml
+# config.yaml
 image:
   compress: true
   max_width: 1920      # 最大宽度
@@ -207,13 +207,13 @@ image:
 
 ```bash
 # 秋日暖光
-md2wechat convert article.md --mode ai --theme autumn-warm
+writer convert article.md --mode ai --theme autumn-warm
 
 # 春日清新
-md2wechat convert article.md --mode ai --theme spring-fresh
+writer convert article.md --mode ai --theme spring-fresh
 
 # 深海静谧
-md2wechat convert article.md --mode ai --theme ocean-calm
+writer convert article.md --mode ai --theme ocean-calm
 ```
 
 ### 主题预览
@@ -227,7 +227,7 @@ md2wechat convert article.md --mode ai --theme ocean-calm
 ### 自定义提示词
 
 ```bash
-md2wechat convert article.md --mode ai --custom-prompt "
+writer convert article.md --mode ai --custom-prompt "
 请使用蓝色配色方案，创建专业的技术博客风格。
 标题使用深蓝色 #1a365d，正文使用 #2d3748。
 "
@@ -250,17 +250,17 @@ api:
 
 ```bash
 # 直接创建草稿
-md2wechat convert article.md --draft
+writer convert article.md --draft
 
 # 先上传图片再创建草稿
-md2wechat convert article.md --upload --draft
+writer convert article.md --upload --draft
 ```
 
 ### 保存草稿 JSON
 
 ```bash
 # 保存草稿到文件（不提交到微信）
-md2wechat convert article.md --save-draft draft.json
+writer convert article.md --save-draft draft.json
 
 # 查看草稿文件
 cat draft.json
@@ -283,7 +283,7 @@ cat draft.json
 ### 从 JSON 创建草稿
 
 ```bash
-md2wechat create_draft draft.json
+writer create_draft draft.json
 ```
 
 ---
@@ -294,30 +294,30 @@ md2wechat create_draft draft.json
 
 ```bash
 # 1. 首次使用，初始化配置
-md2wechat config init
-# 编辑 md2wechat.yaml，填入微信 AppID 和 Secret
+writer config init
+# 编辑 config.yaml，填入微信 AppID 和 Secret
 
 # 2. 验证配置
-md2wechat config validate
+writer config validate
 
 # 3. 预览转换
-md2wechat convert my-article.md --preview
+writer convert my-article.md --preview
 
 # 4. 创建草稿
-md2wechat convert my-article.md --draft
+writer convert my-article.md --draft
 ```
 
 ### 示例 2：使用精美主题
 
 ```bash
 # 1. 使用 AI 模式 + 秋日暖光主题
-md2wechat convert my-article.md \
+writer convert my-article.md \
   --mode ai \
   --theme autumn-warm \
   --preview
 
 # 2. 满意后，上传图片并创建草稿
-md2wechat convert my-article.md \
+writer convert my-article.md \
   --mode ai \
   --theme autumn-warm \
   --upload \
@@ -332,7 +332,7 @@ md2wechat convert my-article.md \
 
 for file in articles/*.md; do
   echo "Converting $file..."
-  md2wechat convert "$file" \
+  writer convert "$file" \
     --mode ai \
     --theme autumn-warm \
     --upload \
@@ -346,12 +346,8 @@ done
 #!/bin/bash
 # .github/workflows/publish.yml
 
-# 设置环境变量
-export WECHAT_APPID="${{ secrets.WECHAT_APPID }}"
-export WECHAT_SECRET="${{ secrets.WECHAT_SECRET }}"
-
 # 转换并创建草稿
-md2wechat convert article.md \
+writer convert article.md \
   --upload \
   --draft \
   --save-draft /outputs/draft.json
@@ -365,8 +361,8 @@ md2wechat convert article.md \
 
 ```bash
 # 使用 API 模式转换，但用 AI 模式的主题提示词
-md2wechat convert article.md \
-  --mode api \
+writer convert article.md \
+  --mode ai \
   --custom-prompt "参考 autumn-warm 主题的配色"
 ```
 
@@ -374,17 +370,17 @@ md2wechat convert article.md \
 
 ```bash
 # 提取所有图片链接
-md2wechat convert article.md --preview | grep IMG
+writer convert article.md --preview | grep IMG
 
 # 上传所有图片并保存 URL
-md2wechat convert article.md --upload -o temp.html
+writer convert article.md --upload -o temp.html
 ```
 
 ### 调试模式
 
 ```bash
 # 查看详细日志
-md2wechat convert article.md --preview 2>&1 | tee debug.log
+writer convert article.md --preview 2>&1 | tee debug.log
 ```
 
 ---
@@ -410,7 +406,7 @@ file article.md
 
 **解决**：
 ```bash
-md2wechat convert article.md --upload -o output.html
+writer convert article.md --upload -o output.html
 ```
 
 ### 问题：草稿创建失败
@@ -420,10 +416,10 @@ md2wechat convert article.md --upload -o output.html
 **解决**：
 ```bash
 # 检查配置
-md2wechat config validate
+writer config validate
 
 # 先保存 JSON，手动上传
-md2wechat convert article.md --save-draft draft.json
+writer convert article.md --save-draft draft.json
 ```
 
 ---

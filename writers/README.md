@@ -1,6 +1,6 @@
 # 自定义写作风格
 
-想模仿哪位作家或创作者的风格？可以轻松添加到 md2wechat。
+想模仿哪位作家或创作者的风格？可以轻松添加到 writers 中。
 
 ## 快速开始
 
@@ -47,7 +47,7 @@ cover_mood: "封面情绪"
 
 ```bash
 # CLI 命令
-md2wechat write --style my-style
+wechatwriter write --style my-style
 
 # 自然语言
 "用 my-style 风格写一篇文章"
@@ -175,11 +175,11 @@ cover_prompt: |
 
 ## 风格文件位置
 
-`md2wechat` 会按以下顺序查找风格文件：
+`scripts/writer` 会按以下顺序查找风格文件：
 
 1. `./writers/` - 当前项目目录
-2. `~/.config/md2wechat/writers/` - 用户配置目录
-3. `~/.md2wechat-writers/` - 用户主目录
+2. `~/.config/wechatwriter/writers/` - 用户配置目录
+3. `~/.wechatwriter/` - 用户主目录
 
 ---
 
@@ -194,6 +194,7 @@ cover_prompt: |
 ### Q: 风格不生效？
 
 A: 检查以下几点：
+
 1. 文件名是 `.yaml` 或 `.yml` 后缀
 2. `english_name` 字段已填写
 3. 文件在正确的目录中
@@ -201,15 +202,16 @@ A: 检查以下几点：
 ### Q: 如何测试新风格？
 
 A:
+
 ```bash
 # 列出所有风格
-md2wechat styles
+scripts/writer styles
 
 # 查看风格详情
-md2wechat styles --detail my-style
+scripts/writer styles --detail my-style
 
 # 测试写作
-md2wechat write --style my-style --input-type idea
+scripts/writer write --style my-style --input-type idea
 ```
 
 ### Q: 可以分享我的风格吗？

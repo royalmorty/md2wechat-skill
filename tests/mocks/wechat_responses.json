@@ -1,0 +1,31 @@
+{
+  "upload_material_success": {
+    "errcode": 0,
+    "errmsg": "ok",
+    "type": "image",
+    "media_id": "test_media_id_123456",
+    "created_at": 1234567890
+  },
+  "upload_material_error": {
+    "errcode": 40004,
+    "errmsg": "invalid media type"
+  },
+  "create_draft_success": {
+    "errcode": 0,
+    "errmsg": "ok",
+    "media_id": "draft_media_id_123456",
+    "draft_url": "https://mp.weixin.qq.com/s/test_draft_url"
+  },
+  "create_draft_error": {
+    "errcode": 40007,
+    "errmsg": "invalid media_id"
+  },
+  "get_access_token_success": {
+    "access_token": "test_access_token_123456",
+    "expires_in": 7200
+  },
+  "get_access_token_error": {
+    "errcode": 40013,
+    "errmsg": "invalid appid"
+  }
+}
